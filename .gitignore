@@ -6,3 +6,45 @@
 *.csproj
 *.unityproj
 *.sln
+
+#NOTE: this will cause your collaborators to re-import assets periodically
+
+Temp/*
+
+[Ll]ibrary/*
+
+Build/*
+
+#Un-ignore these specific files
+
+![Ll]ibrary/*.asset
+
+![Ll]ibrary/AssetImportState
+
+![Ll]ibrary/AssetVersioning.db
+
+![Ll]ibrary/BuildPlayer.prefs
+
+![Ll]ibrary/ScriptMapper
+
+![Ll]ibrary/assetservercachev3
+
+![Ll]ibrary/expandedItems
+
+![Ll]ibrary/guidmapper
+
+![Ll]ibrary/unity default resources
+
+![Ll]ibrary/unity editor resources
+
+![Ll]ibrary/metadata/
+
+ 
+
+#ignoring pidb, they are just code completion caching data according to:
+
+# http://stackoverflow.com/questions/1022111/what-are-monodevelops-pidb-files
+
+*.pidb
+
+*.userprefs
