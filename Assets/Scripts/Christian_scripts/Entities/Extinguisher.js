@@ -2,7 +2,7 @@ var shotCount : int = 8;			//Amount of pellets in a shotgun shell
 private var shotSpread : float;
 
 var range = 100.0;
-var fireRate = 1;
+var fireRate = 0.1;
 var force = 10.0;
 var damage = 0;
 var bulletsPerClip = 15;
@@ -10,9 +10,9 @@ var clips = 20;
 var reloadTime = 0;
 var freezes = true;
 
+private var emitterPos : GameObject;
 private var mainCam : GameObject;
 private var hitParticles : ParticleEmitter;
-var muzzleFlash : Renderer;
 var reloadSound : AudioClip;
 
 private var bulletsLeft : int = 0;
@@ -29,6 +29,7 @@ function Start ()
 	NotificationCenter.DefaultCenter().AddObserver(this, "Fire");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reload");
 	
+	emitterPos = GameObject.Find("Sparks");
 	mainCam = GameObject.FindWithTag("MainCamera");
 	
 		hitParticles = GetComponentInChildren(ParticleEmitter);
@@ -48,50 +49,11 @@ function Start ()
 function LateUpdate()
 {
 	UpdateGUI();
-	
-	if(muzzleFlash)
-	{
-		//We shot this frame so enable the muzzle flash
-		if(m_LastFrameShot == Time.frameCount)
-		{
-			//Enable our muzzle flash and animate it to rotate
-			muzzleFlash.transform.localRotation = Quaternion.AngleAxis(Random.Range(0, 359), Vector3.forward);
-			muzzleFlash.enabled = true;
-			
-			//Play sound
-			if(audio)
-			{
-				if(!audio.isPlaying)
-				{
-					audio.Play();
-					audio.loop = true;
-				}
-			}
-		}
-		
-		//We need to disable the muzzle flash
-		else
-		{
-			muzzleFlash.enabled = false;
-			enabled = false;
-			
-			//Stop sound
-			if(audio)
-			{
-				audio.loop = false;
-			}
-		}
-	}
 }
 
 
 function Fire()
 {
-	if (bulletsLeft == 0)
-	{
-		return;
-	}
-
 	// If there is more than one bullet between the last and this frame
 	// Reset the nextFireTime
 	if (Time.time - fireRate > nextFireTime)
@@ -107,18 +69,10 @@ function Fire()
 			FireOneBullet();
 			nextFireTime += fireRate;
 		}
-			
-			bulletsLeft--;	
 	}
 	// Register that we shot this frame so that the LateUpdate function enabled the muzzleflash renderer
 	m_LastFrameShot = Time.frameCount;
 	enabled = true;
-
-	// Reload gun in reload Time
-	if (bulletsLeft == 0)
-	{
-		Reload();
-	}
 }
 
 
@@ -133,6 +87,14 @@ function FireOneBullet ()
   	hits = Physics.RaycastAll(transform.position, direction, range,layerMask);
 	System.Array.Sort(hits, Comparison);  
 		
+	// Place the particle system for spawing out of place where we hit the surface!
+			// And spawn a couple of particles
+			if (hitParticles) {	
+				//emitterPos.transform.
+				var newParticles = Instantiate(hitParticles, emitterPos.transform.position, emitterPos.transform.rotation);
+				newParticles.Emit();
+				newParticles.GetComponent(ParticleAnimator).autodestruct = true;
+			}
 //	 Did we hit anything?
 	for (var i=0;i<hits.length;i++)
 		{
@@ -141,15 +103,6 @@ function FireOneBullet ()
 			// Apply a force to the rigidbody we hit
 			if (hit.rigidbody)
 				hit.rigidbody.AddForceAtPosition(force * direction, hit.point);
-		
-			// Place the particle system for spawing out of place where we hit the surface!
-			// And spawn a couple of particles
-			if (hitParticles) {	
-				var newParticles = Instantiate(hitParticles, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
-				newParticles.Emit();
-				newParticles.GetComponent(ParticleAnimator).autodestruct = true;
-			}
-		
 
 			// Send a damage message to the hit object			
 			hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
