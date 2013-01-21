@@ -19,7 +19,12 @@ function Start(){
 	//health = GetComponent(Health);
 	//swap = GameObject.Find("Weapons").GetComponent(WeaponSwap);
 	//cam = GameObject.Find("Camera").GetComponent(Transform);
-	extinguisher = GameObject.Find("Extinguisher").GetComponent(Extinguisher);
+	var obj : GameObject = GameObject.Find("Extinguisher");
+	if(obj != null){
+		extinguisher = obj.GetComponent(Extinguisher);
+	}else{
+		Debug.Log("not found");
+	}
 	Debug.Log(extinguisher);
 }
 

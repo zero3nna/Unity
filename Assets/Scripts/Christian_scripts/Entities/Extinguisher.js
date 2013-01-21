@@ -2,7 +2,7 @@ var shotCount : int = 8;			//Amount of pellets in a shotgun shell
 private var shotSpread : float;
 
 var range = 100.0;
-var fireRate = 0.1;
+var fireRate = 0.01;
 var force = 10.0;
 var damage = 0;
 var bulletsPerClip = 15;
