@@ -36,10 +36,10 @@ function Start ()
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reload");
 	
 	emitterPos = GameObject.Find("Sparks");
-	easterEmitter.Push(GameObject.Find("HascheSparkle").GetComponent(ParticleEmitter));
-	easterEmitter.Push(GameObject.Find("UrbanSparkle").GetComponent(ParticleEmitter));
-	easterEmitter.Push(GameObject.Find("IngwerSparkle").GetComponent(ParticleEmitter));
-	easterEmitter.Push(GameObject.Find("LangeSparkle").GetComponent(ParticleEmitter));
+		easterEmitter.Push(GameObject.Find("HascheSparkle").GetComponent(ParticleEmitter));
+		easterEmitter.Push(GameObject.Find("UrbanSparkle").GetComponent(ParticleEmitter));
+		easterEmitter.Push(GameObject.Find("IngwerSparkle").GetComponent(ParticleEmitter));
+		easterEmitter.Push(GameObject.Find("LangeSparkle").GetComponent(ParticleEmitter));
 	for(var i=0; i < easterEmitter.length; i++){
 		easterEmitter[i].emit = false;
 	}
