@@ -9,8 +9,10 @@ var bulletsPerClip = 15;
 var clips = 20;
 var reloadTime = 0;
 var freezes = true;
+var easter = false;
 
 private var emitterPos : GameObject;
+private var easterEmitter = new Array();
 private var mainCam : GameObject;
 private var hitParticles : ParticleEmitter;
 var reloadSound : AudioClip;
@@ -23,6 +25,10 @@ private var reloading = false;
 
 //private var shotgunAmmoGUI : DrawAmmo;
 
+function enableEaster(){
+	easter = true;
+}
+
 function Start ()
 {
 
@@ -30,9 +36,16 @@ function Start ()
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reload");
 	
 	emitterPos = GameObject.Find("Sparks");
+	easterEmitter.Push(GameObject.Find("HascheSparkle").GetComponent(ParticleEmitter));
+	easterEmitter.Push(GameObject.Find("UrbanSparkle").GetComponent(ParticleEmitter));
+	easterEmitter.Push(GameObject.Find("IngwerSparkle").GetComponent(ParticleEmitter));
+	easterEmitter.Push(GameObject.Find("LangeSparkle").GetComponent(ParticleEmitter));
+	for(var i=0; i < easterEmitter.length; i++){
+		easterEmitter[i].emit = false;
+	}
 	mainCam = GameObject.FindWithTag("MainCamera");
 	
-		hitParticles = GetComponentInChildren(ParticleEmitter);
+		hitParticles = emitterPos.GetComponent(ParticleEmitter);
 
 		// We don't want to emit particles all the time, only when we hit something.
 		if (hitParticles)
@@ -91,9 +104,19 @@ function FireOneBullet ()
 			// And spawn a couple of particles
 			if (hitParticles) {	
 				//emitterPos.transform.
-				var newParticles = Instantiate(hitParticles, emitterPos.transform.position, emitterPos.transform.rotation);
-				newParticles.Emit();
-				newParticles.GetComponent(ParticleAnimator).autodestruct = true;
+				var newParticles;
+				if(!easter){
+					newParticles = Instantiate(hitParticles, emitterPos.transform.position, emitterPos.transform.rotation);
+					newParticles.Emit();
+					newParticles.GetComponent(ParticleAnimator).autodestruct = true;
+				}else{
+					for(var j=0; j < easterEmitter.length; j++){
+						var emitter = easterEmitter[j];
+						newParticles = Instantiate(emitter, emitterPos.transform.position, emitterPos.transform.rotation);
+						newParticles.Emit();
+						newParticles.GetComponent(ParticleAnimator).autodestruct = true;
+					}
+				}
 			}
 //	 Did we hit anything?
 	for (var i=0;i<hits.length;i++)
