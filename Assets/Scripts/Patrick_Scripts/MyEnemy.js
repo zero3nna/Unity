@@ -211,7 +211,7 @@ function UpdateWP(){
 }
 
 function MoveRotate(targetPos:Vector3){
-
+	Debug.Log("MOVEROTATE");
 	var myPosition:Vector3 = transform.position;
 	targetPos = Vector3(targetPos.x,myPosition.y,targetPos.z);
 	
@@ -227,6 +227,12 @@ function MoveRotate(targetPos:Vector3){
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, maxRotationSpeed);
 
 		//this.transform.position = closestWP.transform.position;
+	}
+	
+	var hit : RaycastHit;
+	if(Physics.Raycast(transform.position, -Vector3.up, hit, 8)){
+		hit.point.y += .15;
+		transform.position = hit.point;
 	}
 
 }
