@@ -1,52 +1,92 @@
-var gun1 : GameObject;
-var gun2 : GameObject;
-var gun3 : GameObject;
+var assaultRifle : GameObject;
+var crowbar : GameObject;
+var extinguisher : GameObject;
 var current = new Array(0,0,0);
+var acquired : int[] = new int[3];
 
+private var assaultComponent : AssaultRifle;
+private var crowbarComponent;
+private var extinguisherComponent : Extinguisher;
 
 function Start ()
 {
 		NotificationCenter.DefaultCenter().AddObserver(this, "SwapWeapon");
 		
-		gun1.SetActiveRecursively(true);
-		gun2.SetActiveRecursively(false);
-		gun3.SetActiveRecursively(false);
+		assaultRifle.SetActiveRecursively(true);
+		crowbar.SetActiveRecursively(false);
+		extinguisher.SetActiveRecursively(false);
+		
+		assaultComponent = assaultRifle.GetComponent(AssaultRifle);
+		crowbarComponent = null;
+		acquired = [1,0,0];
+		extinguisherComponent = extinguisher.GetComponent(Extinguisher);
 }
 
-function Maximize(scale){
-	if(gun1.active){
-		gun1.transform.localScale = Vector3(scale,scale,scale + 1);
-	}else if(gun2.active){
-		gun2.transform.localScale = Vector3(scale,scale,scale + 1);
-	}else{
-		gun3.transform.localScale = Vector3(scale,scale,scale + 1);
+function countWeapons(){
+	var count = 0;
+	for(var i = 0; i < acquired.length; i++){
+		if(acquired[i] == 1){
+			count++;
+		}
 	}
+	return count;
+}
+
+function ArrayAnd(arr1:Array, arr2:Array){
+	var arr3 : int[] = new int[arr1.length];
+	
+	if(arr1.length == arr2.length){
+		//beide gleich lang
+		for(var i= 0; i < arr1.length; i++){
+			arr3[i] = (arr1[i] == 1 && arr2[i] == 1) ? 1 : 0;
+		}
+	}
+	
+	return arr3;
 }
 
 function SwapWeapon(notification : Notification)
 {
-	var dir = notification.data;
-	Debug.Log(notification.data);
-	if (gun1.active == true) 
-	{
-		current = new Array(1,0,0);
-		current = shiftDir(current, dir);
-	}
-	else if (gun2.active == true) 
-	{
-		current = new Array(0,1,0);
-		current = shiftDir(current, dir);
-	} 
-	else 
-	{
-		current = new Array(0,0,1);
-		current = shiftDir(current, dir);
-	}
-	gun1.SetActiveRecursively(current[0]);
-	gun2.SetActiveRecursively(current[1]);
-	gun3.SetActiveRecursively(current[2]);
+	if(this.countWeapons() > 0){
+		var dir = notification.data;
+		Debug.Log(notification.data);
+		if (assaultRifle.active == true) 
+		{
+			current = new Array(1,0,0);
+			current = shiftDir(current, dir);
+		}
+		else if (crowbar.active == true) 
+		{
+			current = new Array(0,1,0);
+			current = shiftDir(current, dir);
+		} 
+		else if(extinguisher.active == true)
+		{
+			current = new Array(0,0,1);
+			current = shiftDir(current, dir);
+		}
+		
+		
+		Debug.Log("has " + acquired[0] + ":"+acquired[1] + ":"+acquired[2]);
+		
+		var index = 0;		
+		var acquiredCheckArray = this.ArrayAnd(acquired, current);
+		
+		Debug.Log("and " + acquiredCheckArray[0] + ":"+acquiredCheckArray[1] + ":"+acquiredCheckArray[2]);
+		
+		while(ArrayUtility.IndexOf(acquiredCheckArray, 1) == -1 && index < current.length){
+			Debug.Log("Shuffling weiter");
+			index++;
+			current = shiftDir(current, dir);
+			acquiredCheckArray = this.ArrayAnd(acquired, current);
+		}
+		
+		assaultRifle.SetActiveRecursively(current[0]);
+		crowbar.SetActiveRecursively(current[1]);
+		extinguisher.SetActiveRecursively(current[2]);
 	
-	NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon");
+		NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon");
+	}
 }
 
 function shiftDir(arr, dir){

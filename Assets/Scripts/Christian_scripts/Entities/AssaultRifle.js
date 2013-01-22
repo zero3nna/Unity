@@ -9,6 +9,7 @@ private var hitParticles : ParticleEmitter;		//We need some visual feedback that
 var muzzleFlash : Renderer;						//We also need to see if it's actually firing, plus it looks cool
 var reloadSound : AudioClip;
 var freezes = false;
+var acquired = false;
 
 private var bulletsLeft : int = 0;				//This variable is going to store how many bullets we have left in our clip
 private var nextFireTime = 0.0; 				//This is going to regulate our fire rate to use actual time instead of how fast the computer runs

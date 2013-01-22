@@ -10,6 +10,7 @@ var clips = 20;
 var reloadTime = 0;
 var freezes = true;
 var easter = false;
+var acquired = false;
 
 private var emitterPos : GameObject;
 private var easterEmitter = new Array();
