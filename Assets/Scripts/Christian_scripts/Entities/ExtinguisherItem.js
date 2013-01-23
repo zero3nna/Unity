@@ -11,7 +11,7 @@ function Start () {
 }
 
 function Update () {
-	transform.Rotate(Vector3(0,1,0));
+	//transform.Rotate(Vector3(0,1,0));
 }
 
 function OnTriggerEnter (other : Collider) {
