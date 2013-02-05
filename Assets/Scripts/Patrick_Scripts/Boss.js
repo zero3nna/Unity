@@ -7,7 +7,7 @@ var randomSphere:Vector3;
 private var spawnTime:float;
 
 function Start () {
-	curState = BossState.idle;
+	curState = BossState.start;
 	spawnTime = Time.time;
 	playerTransformation = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -23,17 +23,23 @@ enum BossState{attack, idle, gameOver, sawPlayer, start}
 var curState:BossState;
 var startSpeed:float = 2.0;
 var startDuration:float = 0.5;
-var isStateChangeEnabled:boolean = true;
+var isStateChangeEnabled:boolean = false;
 private var hasAttackPlayed:boolean = false;
+
+function setActive(active : boolean) {
+	if(active){
+		curState = BossState.idle;
+	}else{
+		curState = BossState.start;
+	}
+}
 
 function Update () {
 
 	//checking if the state needs to change (transitions)
 	
 	if(isStateChangeEnabled){
-	
 		checkStateChange();
-	
 	}
 	
 	//run commands depending on the curState
@@ -44,7 +50,7 @@ function Update () {
 			maxSpeed = 25;
 			if(!hasAttackPlayed){
 			
-				animation.Play("attackMia");
+				//animation.Play("attackMia");
 				hasAttackPlayed = true;
 			}
 			
@@ -52,19 +58,19 @@ function Update () {
 			break;
 			
 		case BossState.idle:
-			animation.Play("attackMia");
+			//animation.Play("attackMia");
 			//Debug.Log("Inside idle state!");
 			break;
 			
 		case BossState.sawPlayer:
 			maxSpeed = 14;
-			animation.Play("attackMia");
+			//animation.Play("attackMia");
 			//Debug.Log("Inside sawPlayer state!");
 			MoveRotate(playerTransformation.position);
 			break;
 			
 		case BossState.gameOver:
-			animation.Play("attackMia");
+			//animation.Play("attackMia");
 			//Debug.Log("Inside gameOver state!");
 			break;
 	
@@ -72,7 +78,7 @@ function Update () {
 
 }
 
-var sawPlayerDistance:float = 8;
+var sawPlayerDistance:float = 90;
 var attackDistance:float = 4;
 var hitDistance:float = 1;
 
@@ -83,46 +89,28 @@ function Die(){
 function checkStateChange(){
 
 	if(curState != BossState.start){
-
-		if(playerLocation.Count > 1){
-	
-			curState = BossState.idle;
-	
-		}else{
-	
 			//test if we ware close enough to the player and decides if he can heading to the palyer
 			var distanceToPlayer  = Vector3.Distance(transform.position, playerTransformation.position);
 		
+			Debug.Log("distanceToPlayer = " + distanceToPlayer);
+			Debug.Log("sawPlayerDistance = " + sawPlayerDistance);
+		
 			if(distanceToPlayer < sawPlayerDistance){
-			
 				if(distanceToPlayer < attackDistance)
 				{
-				
 					//Debug.Log("Hit Distance: " + distanceToPlayer);
-				
 					if(distanceToPlayer < hitDistance)
 					{
-					
 						//Debug.Log("Notifys:");
 						NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");
 						Die();
-					
 					}else{
-					
 						curState = BossState.attack;
-					
 					}
-				
 				}else{
-		
 					curState = BossState.sawPlayer;
-					
 				}
-		
-			}
-	
 		}
-		
 	}
 
 }
