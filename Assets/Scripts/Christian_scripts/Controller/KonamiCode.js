@@ -29,7 +29,7 @@ function Start(){
 }
 
 function LateUpdate () {
-    if (inKonami) {
+    if (inKonami && extinguisher) {
        //health.Heal();
        extinguisher.enableEaster();
        
