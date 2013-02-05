@@ -12,12 +12,6 @@ var killCount:int = 0;
 var weapon = SwitchGUI();
 var weaponCross = SwitchGUI();
 
-var ammoPack = TextureGUI();
-var ammoPackCount:int = 1;
-
-var ammo = TextureGUI();
-var ammoCount:int = 20;
-
 var rightBackground = TextureGUI();
 
 board.offset = Vector2(0,0);
@@ -27,9 +21,6 @@ rightBackground.offset = Vector2(Screen.width - rightBackground.texture.width,0)
 weapon.offset = Vector2(Screen.width - (rightBackground.texture.width + 80),10);
 weaponCross.offset = Vector2(Screen.width/2,Screen.height/2);
 kill.offset = Vector2(Screen.width/2+20,5);
-
-ammoPack.offset = Vector2(Screen.width-80,0);
-ammo.offset = Vector2(Screen.width-80,40);
 
 
 
@@ -132,27 +123,5 @@ function OnGUI() {
 					weaponCross.offset.y,
 					weaponCross.texture.width,
 					weaponCross.texture.height),
-					weaponCross.texture,noGuiStyle);
-		
-		
-		
-		GUI.Box(Rect(ammoPack.offset.x,
-					ammoPack.offset.y,
-					ammoPack.texture.width,
-					ammoPack.texture.height),
-					ammoPack.texture,noGuiStyle);
-		GUI.Label(Rect(ammoPack.offset.x-40,
-					ammoPack.offset.y,40,40),ammoPackCount.ToString("D1"),noGuiStyle);
-		
-		GUI.Box(Rect(ammo.offset.x,
-					ammo.offset.y,
-					ammo.texture.width,
-					ammo.texture.height),
-					ammo.texture,noGuiStyle);
-		GUI.Label(Rect(ammo.offset.x-40,
-					ammo.offset.y,40,40),ammoCount.ToString("D2"),noGuiStyle);
-					
-					
-					
-					
+					weaponCross.texture,noGuiStyle);					
 }
