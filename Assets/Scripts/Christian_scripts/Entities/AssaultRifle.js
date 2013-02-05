@@ -87,7 +87,7 @@ function Fire ()
 	if(bulletsLeft == 0)
 		{
 		Debug.Log("AssaultRifle:Fire[bulletsLeft==0]");
-		bulletsLeft = 20;
+		//bulletsLeft = 20;
 		return;
 		}
 	
