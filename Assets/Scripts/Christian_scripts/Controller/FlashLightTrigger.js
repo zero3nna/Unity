@@ -4,7 +4,7 @@ var flashlight : GameObject;
 private var myLight : Light;
 
 function Start () {
-	myLight = flashlight.GetComponent("Light");
+	myLight = flashlight.GetComponent(Light);
 }
 
 function Update () {
