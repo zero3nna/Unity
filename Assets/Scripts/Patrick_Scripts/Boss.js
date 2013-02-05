@@ -17,7 +17,6 @@ function Start () {
 	playerTransformation = GameObject.FindGameObjectWithTag("Player").transform;
 	wp_controller = GameObject.FindGameObjectWithTag("wp_controller").GetComponent(WPController);
 	closestWP = wp_controller.findClosestWP(this.transform);
-	WaitAndUpdate();
 
 }
 
@@ -175,7 +174,6 @@ function WaitAndUpdate(){
 	
 		randomSphere = Random.insideUnitSphere * 2;
 	
-		
 		yield WaitForSeconds(0.5);
 	
 	}
