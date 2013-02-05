@@ -5,7 +5,7 @@ var current = new Array(0,0,0);
 var acquired : int[] = new int[3];
 
 private var assaultComponent : AssaultRifle;
-private var crowbarComponent;
+private var crowbarComponent : Crowbar;
 private var extinguisherComponent : Extinguisher;
 
 function Start ()
@@ -18,7 +18,7 @@ function Start ()
 		
 		assaultComponent = assaultRifle.GetComponent(AssaultRifle);
 		crowbarComponent = null;
-		acquired = [1,0,0];
+		acquired = [1,1,0];
 		extinguisherComponent = extinguisher.GetComponent(Extinguisher);
 }
 
