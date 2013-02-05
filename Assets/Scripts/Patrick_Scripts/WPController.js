@@ -67,7 +67,7 @@ function findClosestWP(inTransform:Transform){
 	
 		closeWPs = Physics.OverlapSphere(inPosition, sphereDistance, mask);
 		
-		if(closeWPs.Length > 0){
+		if(closeWPs.Length > 0 && closeWPs[0] != null){
 		
 			//only the frist element found is returned (would it not suffice to search only 1 wp?)
 			return closeWPs[0].gameObject;
