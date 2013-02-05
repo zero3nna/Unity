@@ -19,9 +19,11 @@ function WaitAndUpdate(){
 	
 		//find the closest WP to the player by passing him as an argument
 		closestToPlayer = findClosestWP(playerTransform);
-	
+		
+		//through the closes WP to the Player we init all other WP to hold its own WP list to the player
 		closestToPlayer.GetComponent(WP).initializeData();
 	
+		//only commence this function every two seconds
 		yield WaitForSeconds(2);
 	
 	}
@@ -40,7 +42,7 @@ var randomWP:int;
 //returns a random WP- Object
 function getRandomWP(){
 	
-	//a random WP is makred with a Number, the wps.Length is the maximum of WPs we have and will be castet automatically in to an integer
+	//get a random WP: 0, wps.Length-1 for the array access
 	randomWP= Random.Range(0, wps.Length-1);
 	return wps[randomWP];
 
@@ -57,14 +59,17 @@ function findClosestWP(inTransform:Transform){
 	var closeWPs:Collider[];
 	var inPosition = inTransform.position;
 	
+	//find the closest by using a sphere and search only on the specified layer (mask)
 	closeWPs = Physics.OverlapSphere(inPosition, 10, mask);
 
+	//as long as there is the count less then 3, search more (but only so long as breakwhile allows it)
 	while((closeWPs.Length < 3) && (breakWhile < 10)){
 	
 		closeWPs = Physics.OverlapSphere(inPosition, sphereDistance, mask);
 		
 		if(closeWPs.Length > 0){
 		
+			//only the frist element found is returned (would it not suffice to search only 1 wp?)
 			return closeWPs[0].gameObject;
 		
 		}

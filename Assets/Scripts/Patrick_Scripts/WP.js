@@ -21,7 +21,7 @@ function getPlayerLocation(){
 
 function initializeData(){
 
-	//reset the list
+	//reset the list and recieve a new updatet list
 	playerLocation.Clear();
 	setData(playerLocation);
 
@@ -30,6 +30,7 @@ function initializeData(){
 //this function finds the shortest way
 function setData(newList:List.<Transform>){
 
+	//if there is no WP in the list OR I travelled in a circle OR this List is shorter (which means the way is shorter) then update the list
 	if(playerLocation.Count == 0 || (newList[0] != playerLocation[0]) || (newList.Count < playerLocation.Count)){
 		playerLocation = newList;
 		playerLocation.Add(transform);

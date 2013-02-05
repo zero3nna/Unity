@@ -211,9 +211,10 @@ function UpdateWP(){
 }
 
 function MoveRotate(targetPos:Vector3){
-	Debug.Log("MOVEROTATE");
+	//Debug.Log("MOVEROTATE");
 	var myPosition:Vector3 = transform.position;
-	targetPos = Vector3(targetPos.x,myPosition.y,targetPos.z);
+	//in the turoial we rednered the y Position meaningless targetPos = Vector3(targetPos.x,myPosition.y,targetPos.z); by taking only the Enemy.y Position
+	//targetPos = Vector3(targetPos.x,myPosition.y,targetPos.z);
 	
 	//Enemy Movement
 	//this.transform.position = Vector3.SmoothDamp(this.transform.position, targetPos, velocity, smoothTime, maxSpeed);
