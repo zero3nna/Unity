@@ -194,7 +194,7 @@ function UpdateWP(){
 	the the x,z Plane, because we are calculate the distance and ignoring the y Axes by simply setting the closesWP y pos equals to the enemy y pos
 	*/
 	
-	var distanceEnemyWP = Vector3.Distance(transform.position, Vector3(closestWP.transform.position.x,transform.position.y, closestWP.transform.position.z));
+	var distanceEnemyWP = Vector3.Distance(transform.position, closestWP.transform.position);
 	
 	//Debug.Log("DistanceEnemyWP: " + distanceEnemyWP);
 
