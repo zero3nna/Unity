@@ -1,4 +1,4 @@
-var startHealth:int = 4;
+var startHealth:int = 9;
 var maxHealth:int;
 var destroyOnDeath:boolean = false;
 var onHitDie:boolean = false;

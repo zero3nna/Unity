@@ -61,7 +61,8 @@ function Update () {
 	//health.changeTexture(healthObj.currentHealth());
 }
 function ActiveWeapon(notification : Notification){
-	var current = notification.data;
+	var current : Array = notification.data;
+	Debug.Log(notification);
 	if(current[0] == 1){
 		weapon.changeTexture(0);
 	}else if(current[1] == 1){
