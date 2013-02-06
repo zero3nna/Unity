@@ -1,5 +1,5 @@
 var range = 2.0; 								//This is just a default value to give us a range that our weapon can shoot
-var fireRate = .2; 							//This is another default value that we can change directly in the editor to change the rate of fire
+var fireRate = 1; 							//This is another default value that we can change directly in the editor to change the rate of fire
 var force = 10.0;								//This variable gives us the ability to adjust how much force our weapon has when it shoots something
 var damage = 10.0;								//This allows us to apply damage to enemies if they have hit points that must reach 0 before they actually die
 private var hitParticles : ParticleEmitter;		//We need some visual feedback that our bullets are hitting something
@@ -107,10 +107,10 @@ function FireOneShot()
 		Debug.Log("Crowbar:FireOneShot[Raycast]");
 	
 		//Apply force to the rigid body we hit
-		if(hit.rigidbody)
+		/*if(hit.rigidbody)
 		{
 			hit.rigidbody.AddForceAtPosition(force * direction, hit.point);
-		}
+		}*/
 		//Spawn particles at the point we hit the surface
 		if(hitParticles)
 			{
@@ -122,7 +122,8 @@ function FireOneShot()
 			}
 
 		//Send damage message to the hit object
-		hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+		Debug.Log("APPLYDAMAGE");
+		hit.collider.SendMessageUpwards("ApplyDamage", new Array(damage, 1), SendMessageOptions.DontRequireReceiver);
 	}else{
 		Debug.Log("Crowbar:FireOneShot[!Raycast]");
 	}

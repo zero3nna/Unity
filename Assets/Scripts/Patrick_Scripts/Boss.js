@@ -18,7 +18,7 @@ var frozen : boolean = false;
 var frozenTime : int = 0;
 var frozenDuration = 5; // in sekunden
 
-var Health : int = 100;
+var healthPoints : int = 100;
 var perCrowbarHit = 33;
 var perNailgunHit = 0;
 
@@ -65,11 +65,20 @@ function OnTriggerEnter (other : Collider) {
 	}
 }
 
+function Freeze(freeze){
+	if(freeze){
+		frozen = true;
+		renderer.material.shader = shaderFrozen;
+	}else{
+		frozen = false;
+		renderer.material.shader = shaderNormal;
+	}
+}
+
 function OnParticleCollision(other : GameObject){
 	//Debug.Log("other " + other);
 	if(other.tag == "Freezer"){
-		frozen = true;
-		renderer.material.shader = shaderFrozen;
+		Freeze(true);
 		frozenTime = Time.time;
 	}
 }
@@ -81,17 +90,24 @@ function ApplyDamage(payload : Array){
 		if(frozen){
 			switch(type){
 				case 0:
+					healthPoints = healthPoints - perNailgunHit;
 					Debug.Log("Nailgun");
 					break;
 				case 1:
+					healthPoints = healthPoints - perCrowbarHit;
+					if(frozen){
+						Freeze(false);
+					}
 					Debug.Log("Crowbar");
 					break;
+			}
+			if(healthPoints < 0){
+				Destroy(this.gameObject);
 			}
 			Debug.Log("BABY DONT HURT ME");
 		}else{
 			if(type == 2){
-				renderer.material.shader = shaderFrozen;
-				frozen = true;
+				Freeze(true);
 			}else{
 				Debug.Log("DONT HURT ME, NO MORE");
 			}
@@ -123,8 +139,7 @@ function Update () {
 	if(frozen){
 		if(Time.time - frozenTime > frozenDuration){
 			//zeit abgelaufen
-			frozen = false;
-			renderer.material.shader = shaderNormal;
+			Freeze(false);
 		}
 		return;
 	}
