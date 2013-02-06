@@ -11,10 +11,10 @@ var noGuiStyle : GUIStyle;
 var gameState:GameState;
 
 function Start () {
-	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
-	NotificationCenter.DefaultCenter().AddObserver(this, "UnInfo");
+	//NotificationCenter.DefaultCenter().AddObserver(this, "Info");
+	//NotificationCenter.DefaultCenter().AddObserver(this, "UnInfo");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
-	NotificationCenter.DefaultCenter().AddObserver(this, "UnPause");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
 	
 //	if (!gameState) {
 //		gameState = GameObject.FindWithTag("GameController").GetComponent(GameState);
@@ -34,12 +34,13 @@ infoBtn.offset = Vector2(point.x+171,point.y+63);
 goOnBtn.offset = Vector2(point.x+9,point.y-3);
 pauseGUI.offset = Vector2(point.x,point.y);
 
-var activated : boolean = false;
-function Info() {
+var activated : boolean;
+
+function Pause() {
 	activated = true;
 }
 
-function UnInfo() {
+function Unpause() {
 	activated = false;
 }
 
@@ -63,7 +64,7 @@ function OnGUI() {
 					goOnBtn.texture.height),
 					goOnBtn.texture,noGuiStyle)) 
 		{
-					NotificationCenter.DefaultCenter().PostNotification(this,"UnPause");
+					NotificationCenter.DefaultCenter().PostNotification(this,"Unpause");
 		}
 		if (GUI.Button(Rect(infoBtn.offset.x,
 					infoBtn.offset.y,
@@ -71,7 +72,7 @@ function OnGUI() {
 					infoBtn.texture.height),
 					infoBtn.texture,noGuiStyle)) 
 		{
-					NotificationCenter.DefaultCenter().PostNotification(this,"UnPause");
+					NotificationCenter.DefaultCenter().PostNotification(this,"Info");
 		}
 		if (GUI.Button(Rect(backBtn.offset.x,
 					backBtn.offset.y,

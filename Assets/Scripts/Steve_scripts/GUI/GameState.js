@@ -29,6 +29,8 @@ function Start() {
 	NotificationCenter.DefaultCenter().AddObserver(this, "PlayerDead");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reset");
 	
 	// check to make sure everything is set
@@ -42,7 +44,7 @@ function Start() {
 //----------------------------------------------------------
 
 //Pauseblock//
-var isPaused:boolean;
+var isPaused:boolean = false;
 
 function Pause() {
 	isPaused = true;
@@ -58,7 +60,7 @@ function Info() {
 	isInfo = true;
 }
 
-function UnInfo() {
+function Uninfo() {
 	isInfo = false;
 }
 

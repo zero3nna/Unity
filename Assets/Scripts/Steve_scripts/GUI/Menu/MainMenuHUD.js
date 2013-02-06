@@ -26,8 +26,6 @@ titleGUI.offset = Vector2(point.x+1,point.y+0);
 function Start () {
 	useGUILayout = false;
 
-	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
-	//NotificationCenter.DefaultCenter().AddObserver(this, "UnInfo");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Highscore");
 	NotificationCenter.DefaultCenter().AddObserver(this, "EndGame");
 	NotificationCenter.DefaultCenter().AddObserver(this, "StartGame");
@@ -42,16 +40,16 @@ var noGuiStyle : GUIStyle;
 
 private var GUIalpha:float = 1;
 
-function Info() {
+//function Info() {
 	//GUIalpha = 0.3;
-}
+//}
 
-var isInfo:boolean;
+//var isInfo:boolean;
 
-function UnInfo() {
+//function UnInfo() {
 	//GUIalpha = 1;
-	isInfo = false;
-}
+	//isInfo = false;
+//}
 
 
 
@@ -85,14 +83,10 @@ function OnGUI() {
 					infoBtn.texture.height),
 					infoBtn.texture,noGuiStyle)) 
 		{
-			if (!isInfo) {
-				isInfo = true;
-				NotificationCenter.DefaultCenter().PostNotification(this,"Info");///////////////////////
-				//Info();
-			} else {
-				isInfo = false;
-				//NotificationCenter.DefaultCenter().PostNotification(this,"UnInfo");/////////
-			}
+			//if (!isInfo) {
+				//isInfo = true;
+				NotificationCenter.DefaultCenter().PostNotification(this,"Info");
+			//}
 		}
 		
 		//highscore//
