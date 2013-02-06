@@ -2,7 +2,7 @@ var range = 100.0; 								//This is just a default value to give us a range tha
 var fireRate = .2; 							//This is another default value that we can change directly in the editor to change the rate of fire
 var force = 10.0;								//This variable gives us the ability to adjust how much force our weapon has when it shoots something
 var damage = 10.0;								//This allows us to apply damage to enemies if they have hit points that must reach 0 before they actually die
-var bulletsPerClip = 10;						//This variable gives us flexibility to assign how many bullets go into a clip of a specific weapon
+var bulletsPerClip = 30;						//This variable gives us flexibility to assign how many bullets go into a clip of a specific weapon
 var clips = 3;									//This variable gives the ability to have limited ammo
 var reloadTime = 0.5;							//We need to be able to adjust how long it takes to reload our weapon
 private var hitParticles : ParticleEmitter;		//We need some visual feedback that our bullets are hitting something
@@ -17,7 +17,7 @@ private var bulletsLeft : int = 0;				//This variable is going to store how many
 private var nextFireTime = 0.0; 				//This is going to regulate our fire rate to use actual time instead of how fast the computer runs
 private var m_LastFrameShot = -1;				//This also helps regulate the fire rate
 
-//private var rifleAmmoGUI : DrawAmmo;
+var rifleAmmoGUI : DrawAmmo;
 
 
 function Start ()								//Start functions run any code as the level starts but does not continue to update
@@ -26,10 +26,10 @@ function Start ()								//Start functions run any code as the level starts but 
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reload");
 	
 	//Check if we have an ammo GUI set, if not, find one
-	/*if(!rifleAmmoGUI)
+	if(!rifleAmmoGUI)
 	{
-		rifleAmmoGUI = GameObject.Find("Ammo").GetComponent(DrawAmmo);
-	}*/
+		rifleAmmoGUI = GameObject.Find("AmmoGUI_Prefab").GetComponent(DrawAmmo);
+	}
 	
 	audioWallHit = sparks.GetComponent(AudioSource);
 	
@@ -189,6 +189,7 @@ function UpdateGUI()
 {
 	if (this)
 		{
-			//rifleAmmoGUI.UpdateAmmo(bulletsLeft);
+			rifleAmmoGUI.UpdateAmmo(bulletsLeft);
+			rifleAmmoGUI.UpdateAmmoPack(clips);
 		}
 }
