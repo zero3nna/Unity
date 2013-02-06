@@ -51,9 +51,9 @@ function ArrayAnd(arr1:Array, arr2:Array){
 function SwapWeapon(notification : Notification)
 {
 	if(this.countWeapons() > 0){
-	
-		audioSwap.Play();
-	
+		if(this.countWeapons() > 1){	
+			audioSwap.Play();
+		}
 		var dir = notification.data;
 		Debug.Log(notification.data);
 		if (assaultRifle.active == true) 
