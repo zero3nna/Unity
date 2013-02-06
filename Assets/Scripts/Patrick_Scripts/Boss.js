@@ -38,6 +38,21 @@ function Start () {
 	rootPosition = transform.position;
 }
 
+function OnTriggerStay (other : Collider) {
+	Debug.Log("triggerStay");
+	if(other.tag == "Player"){
+		Debug.Log("triggerStay");
+	}else if(other.tag == "BossDestroyable"){
+		Destroy(other.gameObject);
+	}
+		curState = BossState.retreat;
+}
+function OnTriggerEnter (other : Collider) {
+	Debug.Log("triggerEnter");
+	if(other.tag == "Player"){
+		curState = BossState.retreat;
+	}
+}
 
 function setActive(active : boolean) {
 	if(active){
@@ -113,11 +128,11 @@ function checkStateChange(){
 			var distanceToPlayer  = Vector3.Distance(transform.position, playerTransformation.position);
 			var distanceToRoot = Vector3.Distance(rootPosition, transform.position);
 			
-			Debug.Log("distanceToPlayer = " + distanceToPlayer);
-			Debug.Log("distanceToRoot = " + distanceToRoot);
-			Debug.Log("sawPlayerDistance = " + sawPlayerDistance);
+			//Debug.Log("distanceToPlayer = " + distanceToPlayer);
+			//Debug.Log("distanceToRoot = " + distanceToRoot);
+			//Debug.Log("sawPlayerDistance = " + sawPlayerDistance);
 			Debug.Log("curState = " + curState);
-			Debug.Log("curSpeed = " + currentSpeed);
+			//Debug.Log("curSpeed = " + currentSpeed);
 			
 			if(curState != BossState.retreat){
 				if(distanceToPlayer < sawPlayerDistance){
