@@ -122,7 +122,7 @@ function FireOneBullet ()
 				}
 			}
 //	 Did we hit anything?
-	for (var i=0;i<hits.length;i++)
+	/*for (var i=0;i<hits.length;i++)
 		{
 			 var hit : RaycastHit = hits[i];
 			 
@@ -131,8 +131,10 @@ function FireOneBullet ()
 				hit.rigidbody.AddForceAtPosition(force * direction, hit.point);
 
 			// Send a damage message to the hit object			
-			hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+			hit.collider.SendMessageUpwards("ApplyDamage", new Array(damage, 2), SendMessageOptions.DontRequireReceiver);
+			//hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
 		}
+	*/
 }
 
 function Comparison(x : RaycastHit, y : RaycastHit) : int 

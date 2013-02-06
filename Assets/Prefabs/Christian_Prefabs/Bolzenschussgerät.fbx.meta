@@ -1,8 +1,11 @@
 fileFormatVersion: 2
-guid: 9dc708316e4ea7e43a878cba87bf8783
+guid: c96b801f87b8ffa4caf95a38cff30cc3
 ModelImporter:
   fileIDToRecycleName:
-    4300000: pCube1
+    4300000: pPlane1
+    4300002: pPlane2
+    4300004: pPlane3
+    7400000: "Take 001 //// Bolzenschussger\xE4t"
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -40,37 +43,49 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
-      data:
-        first: 111
-        second: 605fa900
-    pCube1:
-      data:
-        first: 1
         second: a0860100
       data:
         first: 4
         second: 801a0600
       data:
-        first: 23
-        second: 60182300
-      data:
-        first: 33
-        second: a05a3200
-    transform1:
+        first: 111
+        second: 605fa900
+    pPlane1:
       data:
         first: 1
         second: a6860100
       data:
         first: 4
         second: 861a0600
-    transform2:
+      data:
+        first: 23
+        second: 64182300
+      data:
+        first: 33
+        second: a45a3200
+    pPlane2:
+      data:
+        first: 1
+        second: a2860100
+      data:
+        first: 4
+        second: 821a0600
+      data:
+        first: 23
+        second: 60182300
+      data:
+        first: 33
+        second: a05a3200
+    pPlane3:
       data:
         first: 1
         second: a4860100
       data:
         first: 4
         second: 841a0600
+      data:
+        first: 23
+        second: 62182300
+      data:
+        first: 33
+        second: a25a3200

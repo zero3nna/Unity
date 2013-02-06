@@ -134,7 +134,7 @@ function FireOneShot()
 				Destroy(newAudioSource);
 			}
 		//Send damage message to the hit object
-		hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+		hit.collider.SendMessageUpwards("ApplyDamage", new Array(damage, 0), SendMessageOptions.DontRequireReceiver);
 	}else{
 		Debug.Log("AssaultRifle:FireOneShot[!Raycast]");
 	}

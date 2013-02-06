@@ -4,9 +4,23 @@
 
 enum BossState{attack, idle, gameOver, sawPlayer, start, retreat}
 
+<<<<<<< HEAD
+=======
+var shaderFrozen : Shader;
+var shaderNormal : Shader;
+
+var audioPlayerHit : AudioSource;
+var audioAttack : AudioSource;
+
+>>>>>>> boss frozen vorbereitung
 var playerTransformation:Transform;
 var lastPlayerPosition : Transform;
 var rootTransform : Transform;
+
+var frozen : boolean = true;
+var Health : int = 100;
+var perCrowbarHit = 33;
+var perNailgunHit = 0;
 
 var rootPosition : Vector3;
 
@@ -31,8 +45,37 @@ var isStateChangeEnabled:boolean = false;
 private var hasAttackPlayed:boolean = false;
 
 
+function ApplyDamage(payload : Array){
+	if(payload){
+		var type : int = payload[1];
+		Debug.Log("APPLY DAMAGE");
+		if(frozen){
+			switch(type){
+				case 0:
+					Debug.Log("Nailgun");
+					break;
+				case 1:
+					Debug.Log("Crowbar");
+					break;
+			}
+			Debug.Log("BABY DONT HURT ME");
+		}else{
+			if(type == 2){
+				renderer.material.shader = shaderFrozen;
+				frozen = true;
+			}else{
+				Debug.Log("DONT HURT ME, NO MORE");
+			}
+		}
+	}
+}
+
 function Start () {
 	curState = BossState.start;
+	
+	shaderFrozen = Shader.Find("Particles/Additive (Soft)");
+	shaderNormal = Shader.Find("Diffuse");
+	
 	spawnTime = Time.time;
 	playerTransformation = GameObject.FindGameObjectWithTag("Player").transform;
 	rootPosition = transform.position;
