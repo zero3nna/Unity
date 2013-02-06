@@ -6,6 +6,24 @@ var closestWP:GameObject;
 var playerLocation = new List.<Transform>();
 var randomSphere:Vector3;
 var life:int = 100;
+var hitPoints = 30.0;
+var explosionDelay = 0.0; 
+var splatterAudio : AudioClip;
+
+var smoothTime:float = 1;
+var maxSpeed:float = 4;
+//var deltaTime
+private var velocity = Vector3.zero;
+var maxRotationSpeed:float = 10;
+var distanceToWP:float = 5;
+
+//enemy states: Run, attack, follow, idle,
+enum EnemyState{run, attack, follow, idle, start, sawPlayer, gameOver}
+var curState:EnemyState;
+var startSpeed:float = 2.0;
+var startDuration:float = 0.5;
+var isStateChangeEnabled:boolean = true;
+private var hasAttackPlayed:boolean = false;
 
 private var spawnTime:float;
 
@@ -23,20 +41,24 @@ function Start () {
 
 }
 
-var smoothTime:float = 1;
-var maxSpeed:float = 4;
-//var deltaTime
-private var velocity = Vector3.zero;
-var maxRotationSpeed:float = 10;
-var distanceToWP:float = 5;
-
-//enemy states: Run, attack, follow, idle,
-enum EnemyState{run, attack, follow, idle, start, sawPlayer, gameOver}
-var curState:EnemyState;
-var startSpeed:float = 2.0;
-var startDuration:float = 0.5;
-var isStateChangeEnabled:boolean = true;
-private var hasAttackPlayed:boolean = false;
+function ApplyDamage(damage : float)
+{
+        //We need to check if the enemy is already dead
+        if(hitPoints <= 0.0)
+        {
+        	return;
+        }
+        audio.PlayOneShot(splatterAudio);
+        hitPoints -= damage;
+        
+        if(hitPoints <= 0.0){
+            //StartEmittingParticles
+            var emitter : ParticleEmitter = GetComponentInChildren(ParticleEmitter);
+            if(emitter)
+            emitter.emit = true;    
+            Invoke("DelayedExplosion", explosionDelay);
+        }
+}
 
 function Update () {
 
