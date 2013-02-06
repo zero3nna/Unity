@@ -180,7 +180,7 @@ function UpdateGUI()
 {
 	if (this)
 		{
-			NotificationCenter.DefaultCenter().PostNotification(this,"UpdateAmmo",bulletsLeft);
+				
 			NotificationCenter.DefaultCenter().PostNotification(this,"UpdateAmmoPack",clips);
 		}
 }

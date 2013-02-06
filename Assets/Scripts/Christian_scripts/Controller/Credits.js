@@ -6,6 +6,10 @@ private var text = "out";
 private var crawling : boolean = false;
 
 function makeHeadline(title : String){
+	return makeHeadline(title, false);
+}
+
+function makeHeadline(title : String, upper : boolean){
 	var titleLength = title.Length;
 	var border = "";
 	var headline = "\n\n";
@@ -14,7 +18,7 @@ function makeHeadline(title : String){
 		border += "--";
 	}
 	
-	headline += border + "\n";
+	if(upper)headline += border + "\n";
 	headline += title + "\n";
 	headline += border + "\n\n";
 	
@@ -24,6 +28,8 @@ function makeHeadline(title : String){
 function Start () {
 	gui = GetComponent(GUIText);
 	gui.text = "";
+	gui.text += makeHeadline("The Lost Mine - Multimedia Produktion", true);
+	gui.text += "\t2012 - 2013\n";
 	gui.text += makeHeadline("Autoren");
 	gui.text += "\tSebastian Kruse\n";
 	gui.text += "\tClemens Geßmann\n";

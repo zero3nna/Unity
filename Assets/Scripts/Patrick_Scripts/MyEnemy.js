@@ -5,7 +5,6 @@ var wp_controller:WPController;
 var closestWP:GameObject;
 var playerLocation = new List.<Transform>();
 var randomSphere:Vector3;
-var life:int = 100;
 var hitPoints = 30.0;
 var explosionDelay = 0.0; 
 var splatterAudio : AudioClip;
@@ -41,8 +40,10 @@ function Start () {
 
 }
 
-function ApplyDamage(damage : float)
+function ApplyDamage(payload : Array)
 {
+	var damage : float = payload[0];
+	Debug.Log("ApplyDamage");
         //We need to check if the enemy is already dead
         if(hitPoints <= 0.0)
         {
@@ -194,7 +195,7 @@ function checkStateChange(){
 		
 	}
 	
-	if(life <= 0){
+	if(hitPoints <= 0){
 	
 		//Debug.Log("Notifys:");
 		NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");

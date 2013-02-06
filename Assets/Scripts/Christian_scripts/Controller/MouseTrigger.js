@@ -25,4 +25,8 @@ function Update () {
 		}
 		Debug.Log("MOUSE WHEEL");
 	}
+	if(Input.GetKeyDown("r")){
+		Debug.Log("r");
+		NotificationCenter.DefaultCenter().PostNotification(this, "Reload");
+	}
 }
