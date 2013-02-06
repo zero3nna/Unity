@@ -6,7 +6,6 @@ var audioAmbient2 : AudioSource;
 function Start () {
 	audioAmbient1.Play();
 	audioAmbient2.Play();
-
 }
 
 function Update () {
