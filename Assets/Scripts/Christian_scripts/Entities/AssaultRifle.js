@@ -17,19 +17,10 @@ private var bulletsLeft : int = 0;				//This variable is going to store how many
 private var nextFireTime = 0.0; 				//This is going to regulate our fire rate to use actual time instead of how fast the computer runs
 private var m_LastFrameShot = -1;				//This also helps regulate the fire rate
 
-var rifleAmmoGUI : DrawAmmo;
-
-
 function Start ()								//Start functions run any code as the level starts but does not continue to update
 {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Fire");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reload");
-	
-	//Check if we have an ammo GUI set, if not, find one
-	if(!rifleAmmoGUI)
-	{
-		rifleAmmoGUI = GameObject.Find("AmmoGUI_Prefab").GetComponent(DrawAmmo);
-	}
 	
 	audioWallHit = sparks.GetComponent(AudioSource);
 	
@@ -189,7 +180,7 @@ function UpdateGUI()
 {
 	if (this)
 		{
-			rifleAmmoGUI.UpdateAmmo(bulletsLeft);
-			rifleAmmoGUI.UpdateAmmoPack(clips);
+			NotificationCenter.DefaultCenter().PostNotification(this,"UpdateAmmo",bulletsLeft);
+			NotificationCenter.DefaultCenter().PostNotification(this,"UpdateAmmoPack",clips);
 		}
 }

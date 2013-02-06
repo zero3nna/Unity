@@ -31,6 +31,8 @@ function Start ()
 	NotificationCenter.DefaultCenter().AddObserver(this, "SwapWeapon");
 	NotificationCenter.DefaultCenter().AddObserver(this, "ActiveWeapon");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
+	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateAmmo");
+	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateAmmoPack");
 }
 
 function Update () {
@@ -98,8 +100,9 @@ function ActiveWeapon(notification : Notification){
 	}
 }
 
-function UpdateAmmo (input : int)
+function UpdateAmmo (notification : Notification)
 {
+	var input : int = notification.data;
 	if (input <= 0){
 		ammoCount = 0;
 	} else if (input >= 30){
@@ -109,8 +112,9 @@ function UpdateAmmo (input : int)
 	}
 }
 
-function UpdateAmmoPack (input : int)
+function UpdateAmmoPack (notification : Notification)
 {
+	var input : int = notification.data;
 	if (input <= 0){
 		ammoPackCount = 0;
 	} else if (input >= 3){
