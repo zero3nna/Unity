@@ -8,10 +8,11 @@ var reloadTime = 0.5;							//We need to be able to adjust how long it takes to 
 private var hitParticles : ParticleEmitter;		//We need some visual feedback that our bullets are hitting something
 var muzzleFlash : Renderer;						//We also need to see if it's actually firing, plus it looks cool
 var audioShot : AudioSource;
-var audioWallHit : AudioSource;
 var freezes = false;
 var acquired = false;
+var sparks : GameObject;
 
+private var audioWallHit : AudioSource;
 private var bulletsLeft : int = 0;				//This variable is going to store how many bullets we have left in our clip
 private var nextFireTime = 0.0; 				//This is going to regulate our fire rate to use actual time instead of how fast the computer runs
 private var m_LastFrameShot = -1;				//This also helps regulate the fire rate
@@ -29,6 +30,8 @@ function Start ()								//Start functions run any code as the level starts but 
 	{
 		rifleAmmoGUI = GameObject.Find("Ammo").GetComponent(DrawAmmo);
 	}*/
+	
+	audioWallHit = sparks.GetComponent(AudioSource);
 	
 	//Get the particle system attached to the AssaultRifleGO
 	hitParticles = GetComponentInChildren(ParticleEmitter);
@@ -53,18 +56,8 @@ function LateUpdate()							//LateUpdate functions updates every frame as long a
 		if(m_LastFrameShot == Time.frameCount)
 		{
 			//Enable our muzzle flash and animate it to rotate
-			muzzleFlash.transform.localRotation = Quaternion.AngleAxis(Random.Range(0, 359), Vector3.forward);
+			muzzleFlash.transform.localRotation = Quaternion.AngleAxis(Random.Range(0, 180), Vector3.forward);
 			muzzleFlash.enabled = true;
-			
-			//Play sound
-			if(audio)
-			{
-				if(!audio.isPlaying)
-				{
-					audio.Play();
-					audio.loop = true;
-				}
-			}
 		}
 		
 		//We need to disable the muzzle flash
@@ -73,11 +66,6 @@ function LateUpdate()							//LateUpdate functions updates every frame as long a
 			muzzleFlash.enabled = false;
 			enabled = false;
 			
-			//Stop sound
-			if(audio)
-			{
-				audio.loop = false;
-			}
 		}
 	}
 }
@@ -140,8 +128,10 @@ function FireOneShot()
 				hitParticles.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 				hitParticles.Emit();
 				newParticles.GetComponent(ParticleAnimator).autodestruct = true;
-				audioWallHit.transform.position = hit.point;
-				audioWallHit.Play();
+				newAudioSource = newParticles.GetComponent(AudioSource);
+				newAudioSource.Play();
+				yield WaitForSeconds(newAudioSource.clip.length);
+				Destroy(newAudioSource);
 			}
 		//Send damage message to the hit object
 		hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);

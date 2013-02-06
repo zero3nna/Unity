@@ -5,6 +5,7 @@ var wp_controller:WPController;
 var closestWP:GameObject;
 var playerLocation = new List.<Transform>();
 var randomSphere:Vector3;
+var life:int = 100;
 
 private var spawnTime:float;
 
@@ -147,8 +148,11 @@ function checkStateChange(){
 					{
 					
 						//Debug.Log("Notifys:");
-						NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");
-						Die();
+						//NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");
+						//Die();
+						
+						//reduce the playerlife!!! WORK IN PROGRESS
+						
 					
 					}else{
 					
@@ -166,6 +170,14 @@ function checkStateChange(){
 	
 		}
 		
+	}
+	
+	if(life <= 0){
+	
+		//Debug.Log("Notifys:");
+		NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");
+		Die();
+	
 	}
 
 }
@@ -234,6 +246,10 @@ function MoveRotate(targetPos:Vector3){
 	if(Physics.Raycast(transform.position, -Vector3.up, hit, 8)){
 		hit.point.y += .15;
 		transform.position = hit.point;
+		
+		//if the enemy is hit, reduce the life points
+		//life = life - 10;
+		
 	}
 
 }
