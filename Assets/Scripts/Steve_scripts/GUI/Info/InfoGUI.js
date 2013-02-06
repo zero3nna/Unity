@@ -10,10 +10,10 @@ var gameState:GameState;
 
 function Start () {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
-	NotificationCenter.DefaultCenter().AddObserver(this, "UnInfo");
-//	if (!gameState) {
-//		gameState = GameObject.FindWithTag("GameController").GetComponent(GameState);
-//	}
+	NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
+	if (!gameState) {
+		gameState = GameObject.FindWithTag("GameState").GetComponent(GameState);
+	}
 }
 
 function Update () {
@@ -28,11 +28,12 @@ backBtn.offset = Vector2(point.x+24,point.y+460);
 infoGUI.offset = Vector2(point.x,point.y);
 
 var activated : boolean = false;
+
 function Info() {
 	activated = true;
 }
 
-function UnInfo() {
+function Uninfo() {
 	activated = false;
 }
 
@@ -56,7 +57,7 @@ function OnGUI() {
 					backBtn.texture.height),
 					backBtn.texture,noGuiStyle)) 
 		{
-					NotificationCenter.DefaultCenter().PostNotification(this,"UnInfo");
+					NotificationCenter.DefaultCenter().PostNotification(this,"Uninfo");
 		}
 	}
 }

@@ -4,6 +4,9 @@ function Start () {
 }
 
 function Update () {
+	if(Input.GetKeyDown("o")){
+	Debug.Log("o");
+	}
 	if(Input.GetMouseButton(0)){
 		Debug.Log("mouse:button(0)");
 		NotificationCenter.DefaultCenter().PostNotification(this, "Fire");

@@ -30,19 +30,21 @@ var noGuiStyle : GUIStyle;
 var gameState:GameState;
 //var healthObj:health;
 
-var isPaused : boolean;
+var isPaused : boolean = false;
 
 
 function Start () {
 
-
-	NotificationCenter.DefaultCenter().AddObserver(this, "UnPause");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
+	//NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
 	
 }
 
 function Pause(){
-
+	isPaused = true;
 }
 
 function UnPause() {
@@ -59,7 +61,7 @@ function Update () {
 }
 
 function OnGUI() {
-
+/*
 	var e : Event = Event.current;
 	if(e.isKey && Input.anyKeyDown && e.keyCode.ToString() != "None"){
 		print(e.keyCode.ToString());
@@ -68,7 +70,7 @@ function OnGUI() {
 		 print("drin");
 		}
 	
-	}
+	}*/
 
 
 
