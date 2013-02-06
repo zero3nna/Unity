@@ -56,18 +56,8 @@ function LateUpdate()							//LateUpdate functions updates every frame as long a
 		if(m_LastFrameShot == Time.frameCount)
 		{
 			//Enable our muzzle flash and animate it to rotate
-			muzzleFlash.transform.localRotation = Quaternion.AngleAxis(Random.Range(0, 359), Vector3.forward);
+			muzzleFlash.transform.localRotation = Quaternion.AngleAxis(Random.Range(0, 180), Vector3.forward);
 			muzzleFlash.enabled = true;
-			
-			//Play sound
-			/*if(audio)
-			{
-				if(!audio.isPlaying)
-				{
-					audio.Play();
-					audio.loop = true;
-				}
-			}*/
 		}
 		
 		//We need to disable the muzzle flash
@@ -76,11 +66,6 @@ function LateUpdate()							//LateUpdate functions updates every frame as long a
 			muzzleFlash.enabled = false;
 			enabled = false;
 			
-			//Stop sound
-			if(audio)
-			{
-				audio.loop = false;
-			}
 		}
 	}
 }
@@ -118,7 +103,7 @@ var layerMask : LayerMask;
 function FireOneShot()
 {
 
-	//audioShot.Play();
+	audioShot.Play();
 	Debug.Log("AssaultRifle:FireOneShot");
 	//We need to cast a ray out in front of the player
 	var direction = transform.TransformDirection(Vector3.forward);
