@@ -4,15 +4,12 @@
 
 enum BossState{attack, idle, gameOver, sawPlayer, start, retreat}
 
-<<<<<<< HEAD
-=======
 var shaderFrozen : Shader;
 var shaderNormal : Shader;
 
 var audioPlayerHit : AudioSource;
 var audioAttack : AudioSource;
 
->>>>>>> boss frozen vorbereitung
 var playerTransformation:Transform;
 var lastPlayerPosition : Transform;
 var rootTransform : Transform;
