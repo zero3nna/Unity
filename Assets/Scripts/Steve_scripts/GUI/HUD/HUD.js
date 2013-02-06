@@ -6,9 +6,6 @@ var healthCount:float = 9;
 
 var promIcon = TextureGUI();
 
-var kill = TextureGUI();
-var killCount:int = 0;
-
 var weapon = SwitchGUI();
 var weaponCross = SwitchGUI();
 
@@ -18,9 +15,9 @@ board.offset = Vector2(0,0);
 health.offset = Vector2(100,13);
 promIcon.offset = Vector2(400,31);
 rightBackground.offset = Vector2(Screen.width - rightBackground.texture.width,0);
-weapon.offset = Vector2(Screen.width - (rightBackground.texture.width + 80),10);
+weapon.offset = Vector2(Screen.width - (rightBackground.texture.width + 20),10);
 weaponCross.offset = Vector2(Screen.width/2,Screen.height/2);
-kill.offset = Vector2(Screen.width/2+20,5);
+
 
 
 
@@ -39,8 +36,7 @@ function Start () {
 	//NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
-	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
-	NotificationCenter.DefaultCenter().AddObserver(this, "ActivWeapon");
+	NotificationCenter.DefaultCenter().AddObserver(this, "ActiveWeapon");
 	
 }
 
@@ -50,10 +46,6 @@ function Pause(){
 
 function UnPause() {
 	isPaused = false;
-}
-
-function EnemyKilled() {
-	killCount++;
 }
 
 function Update () {
@@ -105,15 +97,6 @@ function OnGUI() {
 					promIcon.texture.width,
 					promIcon.texture.height),
 					promIcon.texture,noGuiStyle);
-					
-
-		GUI.Box(Rect(kill.offset.x,
-					kill.offset.y,
-					kill.texture.width,
-					kill.texture.height),
-					kill.texture,noGuiStyle);
-		GUI.Label(Rect(kill.offset.x-40,
-					kill.offset.y+60,40,40),killCount.ToString("D4"),noGuiStyle);
 					
 		GUI.Box(Rect(rightBackground.offset.x,
 					rightBackground.offset.y,

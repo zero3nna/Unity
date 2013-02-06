@@ -14,8 +14,8 @@ private var maxAmmo : int = 30;
 
 var noGuiStyle : GUIStyle;
 
-ammo.offset = Vector2(Screen.width-60,50);
-ammoPack.offset = Vector2(Screen.width-60,10);
+ammo.offset = Vector2(Screen.width-60,60);
+ammoPack.offset = Vector2(Screen.width-60,15);
 
 function Start ()
 {
