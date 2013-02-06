@@ -21,7 +21,7 @@ function Start ()
 		
 		assaultComponent = assaultRifle.GetComponent(AssaultRifle);
 		crowbarComponent = null;
-		acquired = [1,0,0];
+		acquired = [1,1,0];
 		extinguisherComponent = extinguisher.GetComponent(Extinguisher);
 }
 
