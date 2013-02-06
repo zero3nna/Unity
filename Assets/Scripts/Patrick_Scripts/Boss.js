@@ -15,6 +15,9 @@ var lastPlayerPosition : Transform;
 var rootTransform : Transform;
 
 var frozen : boolean = false;
+var frozenTime : int = 0;
+var frozenDuration = 5; // in sekunden
+
 var Health : int = 100;
 var perCrowbarHit = 33;
 var perNailgunHit = 0;
@@ -67,6 +70,7 @@ function OnParticleCollision(other : GameObject){
 	if(other.tag == "Freezer"){
 		frozen = true;
 		renderer.material.shader = shaderFrozen;
+		frozenTime = Time.time;
 	}
 }
 
@@ -117,6 +121,11 @@ function setActive(active : boolean) {
 
 function Update () {
 	if(frozen){
+		if(Time.time - frozenTime > frozenDuration){
+			//zeit abgelaufen
+			frozen = false;
+			renderer.material.shader = shaderNormal;
+		}
 		return;
 	}
 	//checking if the state needs to change (transitions)
