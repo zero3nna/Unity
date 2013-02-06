@@ -1,8 +1,11 @@
 var assaultRifle : GameObject;
 var crowbar : GameObject;
 var extinguisher : GameObject;
+
 var current = new Array(0,0,0);
 var acquired : int[] = new int[3];
+
+var audioSwap : AudioSource;
 
 private var assaultComponent : AssaultRifle;
 private var crowbarComponent : Crowbar;
@@ -48,6 +51,9 @@ function ArrayAnd(arr1:Array, arr2:Array){
 function SwapWeapon(notification : Notification)
 {
 	if(this.countWeapons() > 0){
+	
+		audioSwap.Play();
+	
 		var dir = notification.data;
 		Debug.Log(notification.data);
 		if (assaultRifle.active == true) 
