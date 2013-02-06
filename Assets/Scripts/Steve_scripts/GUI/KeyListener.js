@@ -39,6 +39,16 @@ function Update ()
 	if(Input.GetKeyDown("3")){
 	NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon", [0,0,1]);
 	}
+	if(Input.GetKeyDown("k")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "PlayerHit", 1);
+	}
+	if(Input.GetKeyDown("l")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "Heal");
+	}
+	if(Input.GetKeyDown("+")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "EnemyKilled");
+	}
+	
 	
 	
 	/*if(e.isKey && Input.anyKeyDown && e.keyCode.ToString() != "None"){

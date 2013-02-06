@@ -30,6 +30,7 @@ function Start ()
 	//ammo.setAnchor();
 	NotificationCenter.DefaultCenter().AddObserver(this, "SwapWeapon");
 	NotificationCenter.DefaultCenter().AddObserver(this, "ActiveWeapon");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 }
 
 function Update () {
@@ -117,4 +118,8 @@ function UpdateAmmoPack (input : int)
 	}else{
 		ammoPackCount = input;
 	}
+}
+
+function Pause(){
+	GUI.color.a = 123;
 }

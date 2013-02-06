@@ -8,8 +8,8 @@ var noGuiStyle : GUIStyle;
 
 skull.offset = Vector2(Screen.width/2+100,10);
 
-function Start () {
-
+function Start () 
+{
 	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reset");
 }
@@ -18,7 +18,7 @@ function Update () {
 
 }
 
-function Kill()
+function EnemyKilled()
 {
 	killCounter++;
 }

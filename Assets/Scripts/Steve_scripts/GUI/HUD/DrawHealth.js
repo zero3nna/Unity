@@ -14,8 +14,9 @@ healthBottle.offset = Vector2(100,17);
 pptSign.offset = Vector2(400,28);
 
 
-function Start () {
-
+function Start ()
+{
+	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateHealth");
 }
 
 function Update () {
@@ -42,5 +43,26 @@ function OnGUI()
 			pptSign.texture.height),
 			pptSign.texture,noGuiStyle);
 			
-	GUI.Label(Rect(pptSign.offset.x-60,pptSign.offset.y,50,38),(currentHealth * 0.3).ToString("F1"),noGuiStyle);
+	GUI.Label(Rect(pptSign.offset.x-70,pptSign.offset.y,60,38),(currentHealth * 0.3).ToString("F1"),noGuiStyle);
+}
+
+function UpdateHealth (notification : Notification)
+{
+	var health : int = notification.data;
+	if (health <= 0){
+		currentHealth = 0;
+	} else if (health >= maxHealth){
+		currentHealth = 9;
+	}else{
+		currentHealth = health;
+	}
+	if(currentHealth == 0){
+		healthBottle.changeTexture(0);
+	}else if(currentHealth <= 3){
+		healthBottle.changeTexture(1);
+	}else if(currentHealth >=7){
+		healthBottle.changeTexture(3);
+	}else{
+		healthBottle.changeTexture(2);
+	}
 }
