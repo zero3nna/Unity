@@ -18,7 +18,7 @@ var frozen : boolean = false;
 var frozenTime : int = 0;
 var frozenDuration = 5; // in sekunden
 
-var healthPoints : int = 100;
+var healthPoints : int = 99;
 var perCrowbarHit = 33;
 var perNailgunHit = 0;
 
@@ -80,6 +80,7 @@ function OnParticleCollision(other : GameObject){
 	if(other.tag == "Freezer"){
 		Freeze(true);
 		frozenTime = Time.time;
+		Destroy(other);
 	}
 }
 
@@ -102,7 +103,11 @@ function ApplyDamage(payload : Array){
 					break;
 			}
 			if(healthPoints < 0){
-				Destroy(this.gameObject);
+				frozen = true;
+				var rigid : Rigidbody = GetComponent(Rigidbody);
+				var collide : BoxCollider = GetComponent(BoxCollider);
+				collide.isTrigger = false;
+				rigid.useGravity = true;
 			}
 			Debug.Log("BABY DONT HURT ME");
 		}else{
@@ -136,6 +141,9 @@ function setActive(active : boolean) {
 }
 
 function Update () {
+	if(healthPoints < 0){
+		return;
+	}
 	if(frozen){
 		if(Time.time - frozenTime > frozenDuration){
 			//zeit abgelaufen
