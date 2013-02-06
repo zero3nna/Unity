@@ -16,7 +16,7 @@ function Start ()
 
 function Update ()
 {
-	Debug.Log("Tick");
+	Debug.Log("KeyListener Active :DD");
 	if(Input.GetKeyDown("p") && !gamestate.isPaused){
 	print("p");
 	NotificationCenter.DefaultCenter().PostNotification(this, "Pause");
@@ -48,8 +48,9 @@ function Update ()
 	if(Input.GetKeyDown("+")){
 	NotificationCenter.DefaultCenter().PostNotification(this, "EnemyKilled");
 	}
-	
-	
+	if(Input.GetKeyDown("#")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "ResetAll");
+	}
 	
 	/*if(e.isKey && Input.anyKeyDown && e.keyCode.ToString() != "None"){
 		print(e.keyCode.ToString());
