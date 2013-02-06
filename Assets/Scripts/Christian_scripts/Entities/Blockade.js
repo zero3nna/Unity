@@ -2,6 +2,7 @@
 
 private var blockadeTrigger : BoxCollider;
 private var bossScript : Boss;
+var audioBoss : AudioSource;
 
 var blockade : GameObject;
 var boss : GameObject;
@@ -19,6 +20,7 @@ function OnTriggerEnter (other : Collider) {
 	if(other.tag == "Player"){
 		blockadeTrigger.isTrigger = false;
 		blockadeTrigger.active = false;
+		audioBoss.Play();
 		bossScript.setActive(true);
 		blockade.active = true;
 	}

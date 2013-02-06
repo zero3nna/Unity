@@ -1,6 +1,12 @@
 #pragma strict
 
+var audioAmbient1 : AudioSource;
+var audioAmbient2 : AudioSource;
+
 function Start () {
+	audioAmbient1.Play();
+	audioAmbient2.Play();
+
 }
 
 function Update () {

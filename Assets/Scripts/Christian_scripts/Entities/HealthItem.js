@@ -1,5 +1,8 @@
 #pragma strict
 
+var audioOpen : AudioSource;
+var audioDrink : AudioSource;
+
 function Start () {
 
 }
@@ -16,6 +19,13 @@ function OnTriggerEnter (other : Collider) {
 		if(healthScript){
 			healthScript.Heal();
 		}
+		this.gameObject.GetComponent(MeshRenderer).enabled = false;
+		
+		audioOpen.Play();
+		yield WaitForSeconds(audioOpen.clip.length);
+		audioDrink.Play();
+		yield WaitForSeconds(audioDrink.clip.length);
+		
 		Destroy(this.gameObject);
 	}
     Debug.Log(other.tag);

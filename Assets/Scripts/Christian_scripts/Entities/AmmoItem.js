@@ -1,6 +1,9 @@
 #pragma strict
 var playerObj:GameObject;
 
+var audioUsed : AudioSource;
+
+
 function Start () {
 
 }
@@ -20,6 +23,12 @@ function OnTriggerEnter (other : Collider) {
 			Debug.Log("hat die assaultrifle gefunden");
 			ammoScript.Rearm();
 		}
+		
+		this.gameObject.GetComponent(MeshRenderer).enabled = false;
+		
+		audioUsed.Play();
+		yield WaitForSeconds(audioUsed.clip.length);
+		
 		Destroy(this.gameObject);
 	}
     Debug.Log(other.tag);

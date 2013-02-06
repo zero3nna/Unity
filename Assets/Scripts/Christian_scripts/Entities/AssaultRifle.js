@@ -7,7 +7,8 @@ var clips = 3;									//This variable gives the ability to have limited ammo
 var reloadTime = 0.5;							//We need to be able to adjust how long it takes to reload our weapon
 private var hitParticles : ParticleEmitter;		//We need some visual feedback that our bullets are hitting something
 var muzzleFlash : Renderer;						//We also need to see if it's actually firing, plus it looks cool
-var reloadSound : AudioClip;
+var audioShot : AudioSource;
+var audioWallHit : AudioSource;
 var freezes = false;
 var acquired = false;
 
@@ -113,6 +114,8 @@ var layerMask : LayerMask;
 //This function tells our weapon how to shoot
 function FireOneShot()
 {
+
+	audioShot.Play();
 	Debug.Log("AssaultRifle:FireOneShot");
 	//We need to cast a ray out in front of the player
 	var direction = transform.TransformDirection(Vector3.forward);
@@ -137,6 +140,8 @@ function FireOneShot()
 				hitParticles.transform.rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 				hitParticles.Emit();
 				newParticles.GetComponent(ParticleAnimator).autodestruct = true;
+				audioWallHit.transform.position = hit.point;
+				audioWallHit.Play();
 			}
 		//Send damage message to the hit object
 		hit.collider.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
@@ -162,8 +167,8 @@ function Reload ()
 	// Wait for reload time first - then add more bullets!
 	if(bulletsLeft >= 0)
 	{
-		audio.PlayOneShot(reloadSound);
-		yield WaitForSeconds(reloadTime);
+		//audio.PlayOneShot(reloadSound);
+		//yield WaitForSeconds(reloadTime);
 	}
 	// We have a clip left reload
 	if (clips > 0)

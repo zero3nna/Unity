@@ -12,6 +12,8 @@ var freezes = true;
 var easter = false;
 var acquired = false;
 
+var audioShot : AudioSource;
+
 private var emitterPos : GameObject;
 private var easterEmitter = new Array();
 private var mainCam : GameObject;
@@ -93,7 +95,7 @@ function Fire()
 var layerMask : LayerMask;
 function FireOneBullet () 
 {  
-	
+	audioShot.Play();	
 	
   	var hits : RaycastHit[];
 	var direction = SprayDirection();
