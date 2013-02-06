@@ -1,30 +1,43 @@
 #pragma strict
 
-var playerTransformation:Transform;
-var playerLocation = new List.<Transform>();
-var randomSphere:Vector3;
+//boss model from http://thefree3dmodels.com/stuff/characters/creeper_minecraft/14-1-0-2865
 
-private var spawnTime:float;
+enum BossState{attack, idle, gameOver, sawPlayer, start, retreat}
+
+var playerTransformation:Transform;
+var lastPlayerPosition : Transform;
+var rootTransform : Transform;
+
+var rootPosition : Vector3;
+
+private var curState:BossState;
+
+private var velocity = Vector3.zero;
+
+private var spawnTime:float = 0;
+var smoothTime:float = 1;
+var maxSpeed:float = 4;
+var currentSpeed : float = 0;
+var maxRotationSpeed:float = 10;
+
+//enemy states: attack, idle,
+var startSpeed:float = 2.0;
+var startDuration:float = 0.5;
+var sawPlayerDistance:float = 90;
+var attackDistance:float = 15;
+var hitDistance:float = 1;
+
+var isStateChangeEnabled:boolean = false;
+private var hasAttackPlayed:boolean = false;
+
 
 function Start () {
 	curState = BossState.start;
 	spawnTime = Time.time;
 	playerTransformation = GameObject.FindGameObjectWithTag("Player").transform;
-
+	rootPosition = transform.position;
 }
 
-var smoothTime:float = 1;
-var maxSpeed:float = 4;
-private var velocity = Vector3.zero;
-var maxRotationSpeed:float = 10;
-
-//enemy states: attack, idle,
-enum BossState{attack, idle, gameOver, sawPlayer, start}
-var curState:BossState;
-var startSpeed:float = 2.0;
-var startDuration:float = 0.5;
-var isStateChangeEnabled:boolean = false;
-private var hasAttackPlayed:boolean = false;
 
 function setActive(active : boolean) {
 	if(active){
@@ -46,6 +59,17 @@ function Update () {
 	
 	switch(curState){
 			
+		case BossState.retreat:
+			currentSpeed = maxSpeed;
+			
+			var distanceToRoot = Vector3.Distance(rootPosition, transform.position);
+			if(distanceToRoot < 3){				
+				currentSpeed = 0;
+				curState = BossState.idle;
+			}
+			MoveRotate(rootPosition, false);
+			transform.position += transform.forward * currentSpeed * Time.deltaTime;
+			break;
 		case BossState.attack:
 			maxSpeed = 25;
 			if(!hasAttackPlayed){
@@ -78,10 +102,6 @@ function Update () {
 
 }
 
-var sawPlayerDistance:float = 90;
-var attackDistance:float = 4;
-var hitDistance:float = 1;
-
 function Die(){
 	Destroy(transform.root.gameObject);
 }
@@ -91,31 +111,57 @@ function checkStateChange(){
 	if(curState != BossState.start){
 			//test if we ware close enough to the player and decides if he can heading to the palyer
 			var distanceToPlayer  = Vector3.Distance(transform.position, playerTransformation.position);
-		
+			var distanceToRoot = Vector3.Distance(rootPosition, transform.position);
+			
 			Debug.Log("distanceToPlayer = " + distanceToPlayer);
+			Debug.Log("distanceToRoot = " + distanceToRoot);
 			Debug.Log("sawPlayerDistance = " + sawPlayerDistance);
-		
-			if(distanceToPlayer < sawPlayerDistance){
-				if(distanceToPlayer < attackDistance)
-				{
-					//Debug.Log("Hit Distance: " + distanceToPlayer);
-					if(distanceToPlayer < hitDistance)
+			Debug.Log("curState = " + curState);
+			Debug.Log("curSpeed = " + currentSpeed);
+			
+			if(curState != BossState.retreat){
+				if(distanceToPlayer < sawPlayerDistance){
+					if(distanceToPlayer < attackDistance)
 					{
-						//Debug.Log("Notifys:");
-						NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");
-						Die();
+						if(curState != BossState.attack){
+							currentSpeed = 0.5;
+							curState = BossState.attack;
+						}
+						//Debug.Log("Hit Distance: " + distanceToPlayer);
+						if(distanceToPlayer < hitDistance)
+						{
+							curState = BossState.retreat;
+							//Debug.Log("Notifys:");
+							//NotificationCenter.DefaultCenter().PostNotification(this,"EnemyDead");
+							//Die();
+						}else{
+							curState = BossState.attack;
+						}
 					}else{
-						curState = BossState.attack;
+						curState = BossState.sawPlayer;
 					}
-				}else{
-					curState = BossState.sawPlayer;
+					if(curState == BossState.attack){
+						if(distanceToRoot > attackDistance){
+							Debug.Log("moving backwards");
+							//größer als angriffsradius, muss zurück
+							currentSpeed = 0;
+							curState = BossState.retreat;
+						}else{
+							Debug.Log("moving forwards, currentSpeed = " + currentSpeed);
+							//im angriffsradius, lauf weiter
+							if(currentSpeed < maxSpeed){
+								currentSpeed *= 1.5;
+							}
+							transform.position += transform.forward * currentSpeed * Time.deltaTime;
+						}
+					}
 				}
-		}
+			}
 	}
 
 }
 
-function MoveRotate(targetPos:Vector3){
+function MoveRotate(targetPos:Vector3, zeroCheck:boolean){
 	//Debug.Log("MOVEROTATE");
 	var myPosition:Vector3 = transform.position;
 	//in the turoial we rednered the y Position meaningless targetPos = Vector3(targetPos.x,myPosition.y,targetPos.z); by taking only the Enemy.y Position
@@ -126,12 +172,14 @@ function MoveRotate(targetPos:Vector3){
 	//this.transform.position = Vector3.SmoothDamp(myPosition, targetPos, velocity, smoothTime, maxSpeed);
 	
 	//var relativePosition = closeWPPosition - transform.position;
-	var toRotation:Quaternion;
-	if(targetPos - myPosition != Vector3.zero){
+	//var toRotation:Quaternion;
+	if(!zeroCheck || targetPos - myPosition != Vector3.zero){
+		
+		transform.LookAt(targetPos);
 	
-		toRotation = Quaternion.LookRotation(targetPos - myPosition);
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, maxRotationSpeed);
-
+		//toRotation = Quaternion.LookRotation(targetPos - myPosition);
+		//transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, maxRotationSpeed);
+		//transform.rotation.z = 0;
 		//this.transform.position = closestWP.transform.position;
 	}
 	
@@ -142,5 +190,8 @@ function MoveRotate(targetPos:Vector3){
 		transform.position = hit.point;
 	}
 	*/
+}
 
+function MoveRotate(targetPos:Vector3){
+	MoveRotate(targetPos, true);
 }
