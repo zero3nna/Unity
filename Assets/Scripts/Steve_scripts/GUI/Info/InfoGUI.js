@@ -12,7 +12,7 @@ function Start () {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
 	if (!gameState) {
-		gameState = GameObject.FindWithTag("GameState").GetComponent(GameState);
+		gameState = GameObject.FindWithTag("GameController").GetComponent(GameState);
 	}
 }
 

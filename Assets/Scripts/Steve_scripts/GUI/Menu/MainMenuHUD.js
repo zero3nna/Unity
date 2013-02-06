@@ -34,8 +34,8 @@ function Start () {
 var noGuiStyle : GUIStyle;
 
 
-//var healthObj:Health;
-//var gameState:GameState;
+var healthObj:Health;
+var gameState:GameState;
 
 
 private var GUIalpha:float = 1;

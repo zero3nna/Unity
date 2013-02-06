@@ -2,7 +2,7 @@
 
 var board = TextureGUI();
 var health = SwitchGUI();
-var healthCount:float = 3.0;
+var healthCount:float = 9;
 
 var promIcon = TextureGUI();
 
@@ -40,6 +40,7 @@ function Start () {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
+	NotificationCenter.DefaultCenter().AddObserver(this, "ActivWeapon");
 	
 }
 
@@ -59,6 +60,16 @@ function Update () {
 
 	//health.changeTexture(healthObj.currentHealth());
 }
+function ActiveWeapon(notification : Notification){
+	var current = notification.data;
+	if(current[0] == 1){
+		weapon.changeTexture(0);
+	}else if(current[1] == 1){
+		weapon.changeTexture(1);
+	}else if(current[2] == 1){
+		weapon.changeTexture(2);
+	}
+}
 
 function OnGUI() {
 /*
@@ -71,12 +82,6 @@ function OnGUI() {
 		}
 	
 	}*/
-
-
-
-
-
-
 
 
 		GUI.Box(Rect(board.offset.x,
@@ -92,7 +97,7 @@ function OnGUI() {
 					health.texture,noGuiStyle);
 					
 		GUI.Label(Rect(health.offset.x+health.texture.width,
-					health.offset.y+50,100,20),healthCount.ToString("F1"),noGuiStyle);
+					health.offset.y+50,100,20),(healthCount * 0.3).ToString("F1"),noGuiStyle);
 					
 		GUI.Box(Rect(promIcon.offset.x,
 					promIcon.offset.y,

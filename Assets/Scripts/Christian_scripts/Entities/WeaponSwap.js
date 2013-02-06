@@ -85,7 +85,7 @@ function SwapWeapon(notification : Notification)
 		crowbar.SetActiveRecursively(current[1]);
 		extinguisher.SetActiveRecursively(current[2]);
 	
-		NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon");
+		NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon", current);
 	}
 }
 
