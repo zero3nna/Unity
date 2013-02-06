@@ -4,6 +4,9 @@
 
 enum BossState{attack, idle, gameOver, sawPlayer, start, retreat}
 
+var audioPlayerHit : AudioSource;
+var audioAttack : AudioSource;
+
 var playerTransformation:Transform;
 var lastPlayerPosition : Transform;
 var rootTransform : Transform;
@@ -41,6 +44,10 @@ function Start () {
 function OnTriggerStay (other : Collider) {
 	Debug.Log("triggerStay");
 	if(other.tag == "Player"){
+		//if(!audioPlayerHit.isPlaying){
+		audioAttack.Stop();
+		audioPlayerHit.Play();
+		//}
 		Debug.Log("triggerStay");
 	}else if(other.tag == "BossDestroyable"){
 		Destroy(other.gameObject);
@@ -141,6 +148,9 @@ function checkStateChange(){
 						if(curState != BossState.attack){
 							currentSpeed = 0.5;
 							curState = BossState.attack;
+							if(!audioAttack.isPlaying){
+								audioAttack.Play();
+							}
 						}
 						//Debug.Log("Hit Distance: " + distanceToPlayer);
 						if(distanceToPlayer < hitDistance)
