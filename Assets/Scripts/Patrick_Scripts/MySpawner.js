@@ -10,11 +10,11 @@ var enemy_select:int;
 function spawnEnemy(){
 
 	//which enemy is spawned, depends on this random number
-	enemy_select = Random.Range(0, 1);
+	enemy_select = Random.Range(0, 100);
 	
-	if(enemy_select == 0){
+	if(enemy_select < 50){
 		Instantiate(enemyObject, this.transform.position, this.transform.rotation);
-	}else if(enemy_select == 1){
+	}else{
 		Instantiate(enemyObject2, this.transform.position, this.transform.rotation);
 	}
 
