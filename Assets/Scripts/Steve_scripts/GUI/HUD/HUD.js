@@ -6,17 +6,10 @@ var healthCount:float = 9;
 
 var promIcon = TextureGUI();
 
-var weapon = SwitchGUI();
-var weaponCross = SwitchGUI();
-
-var rightBackground = TextureGUI();
-
 board.offset = Vector2(0,0);
 health.offset = Vector2(100,13);
 promIcon.offset = Vector2(400,31);
-rightBackground.offset = Vector2(Screen.width - rightBackground.texture.width,0);
-weapon.offset = Vector2(Screen.width - (rightBackground.texture.width + 20),10);
-weaponCross.offset = Vector2(Screen.width/2,Screen.height/2);
+
 
 
 
@@ -36,7 +29,7 @@ function Start () {
 	//NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
-	NotificationCenter.DefaultCenter().AddObserver(this, "ActiveWeapon");
+
 	
 }
 
@@ -51,17 +44,6 @@ function UnPause() {
 function Update () {
 
 	//health.changeTexture(healthObj.currentHealth());
-}
-function ActiveWeapon(notification : Notification){
-	var current : Array = notification.data;
-	Debug.Log(notification);
-	if(current[0] == 1){
-		weapon.changeTexture(0);
-	}else if(current[1] == 1){
-		weapon.changeTexture(1);
-	}else if(current[2] == 1){
-		weapon.changeTexture(2);
-	}
 }
 
 function OnGUI() {
@@ -97,22 +79,4 @@ function OnGUI() {
 					promIcon.texture.width,
 					promIcon.texture.height),
 					promIcon.texture,noGuiStyle);
-					
-		GUI.Box(Rect(rightBackground.offset.x,
-					rightBackground.offset.y,
-					rightBackground.texture.width,
-					rightBackground.texture.height),
-					rightBackground.texture,noGuiStyle);
-					
-		GUI.Box(Rect(weapon.offset.x,
-					weapon.offset.y,
-					weapon.texture.width,
-					weapon.texture.height),
-					weapon.texture,noGuiStyle);
-					
-		GUI.Box(Rect(weaponCross.offset.x,
-					weaponCross.offset.y,
-					weaponCross.texture.width,
-					weaponCross.texture.height),
-					weaponCross.texture,noGuiStyle);					
 }

@@ -30,6 +30,15 @@ function Update ()
 	print("i");
 	NotificationCenter.DefaultCenter().PostNotification(this, "Uninfo");
 	}
+	if(Input.GetKeyDown("1")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon", [1,0,0]);
+	}
+	if(Input.GetKeyDown("2")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon", [0,1,0]);
+	}
+	if(Input.GetKeyDown("3")){
+	NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon", [0,0,1]);
+	}
 	
 	
 	/*if(e.isKey && Input.anyKeyDown && e.keyCode.ToString() != "None"){
