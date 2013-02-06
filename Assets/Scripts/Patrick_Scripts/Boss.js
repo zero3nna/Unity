@@ -4,8 +4,8 @@
 
 enum BossState{attack, idle, gameOver, sawPlayer, start, retreat}
 
-var shaderFrozen : Shader;
-var shaderNormal : Shader;
+private var shaderFrozen : Shader;
+private var shaderNormal : Shader;
 
 var audioPlayerHit : AudioSource;
 var audioAttack : AudioSource;
@@ -14,7 +14,7 @@ var playerTransformation:Transform;
 var lastPlayerPosition : Transform;
 var rootTransform : Transform;
 
-var frozen : boolean = true;
+var frozen : boolean = false;
 var Health : int = 100;
 var perCrowbarHit = 33;
 var perNailgunHit = 0;
@@ -41,6 +41,34 @@ var hitDistance:float = 1;
 var isStateChangeEnabled:boolean = false;
 private var hasAttackPlayed:boolean = false;
 
+function OnTriggerStay (other : Collider) {
+	Debug.Log("triggerStay");
+	if(other.tag == "Player"){
+		//if(!audioPlayerHit.isPlaying){
+		audioAttack.Stop();
+		audioPlayerHit.Play();
+		//}
+		Debug.Log("triggerStay");
+	}else if(other.tag == "BossDestroyable"){
+			Destroy(other.gameObject);
+	}
+	curState = BossState.retreat;
+}
+
+function OnTriggerEnter (other : Collider) {
+	Debug.Log("triggerEnter");
+	if(other.tag == "Player"){
+		curState = BossState.retreat;
+	}
+}
+
+function OnParticleCollision(other : GameObject){
+	//Debug.Log("other " + other);
+	if(other.tag == "Freezer"){
+		frozen = true;
+		renderer.material.shader = shaderFrozen;
+	}
+}
 
 function ApplyDamage(payload : Array){
 	if(payload){
@@ -88,7 +116,9 @@ function setActive(active : boolean) {
 }
 
 function Update () {
-
+	if(frozen){
+		return;
+	}
 	//checking if the state needs to change (transitions)
 	
 	if(isStateChangeEnabled){
@@ -153,11 +183,11 @@ function checkStateChange(){
 			var distanceToPlayer  = Vector3.Distance(transform.position, playerTransformation.position);
 			var distanceToRoot = Vector3.Distance(rootPosition, transform.position);
 			
-			Debug.Log("distanceToPlayer = " + distanceToPlayer);
-			Debug.Log("distanceToRoot = " + distanceToRoot);
-			Debug.Log("sawPlayerDistance = " + sawPlayerDistance);
+			//Debug.Log("distanceToPlayer = " + distanceToPlayer);
+			//Debug.Log("distanceToRoot = " + distanceToRoot);
+			//Debug.Log("sawPlayerDistance = " + sawPlayerDistance);
 			Debug.Log("curState = " + curState);
-			Debug.Log("curSpeed = " + currentSpeed);
+			//Debug.Log("curSpeed = " + currentSpeed);
 			
 			if(curState != BossState.retreat){
 				if(distanceToPlayer < sawPlayerDistance){
@@ -166,6 +196,9 @@ function checkStateChange(){
 						if(curState != BossState.attack){
 							currentSpeed = 0.5;
 							curState = BossState.attack;
+							if(!audioAttack.isPlaying){
+								audioAttack.Play();
+							}
 						}
 						//Debug.Log("Hit Distance: " + distanceToPlayer);
 						if(distanceToPlayer < hitDistance)
