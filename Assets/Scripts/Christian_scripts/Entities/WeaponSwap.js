@@ -80,8 +80,7 @@ function SwapWeapon(notification : Notification)
 		
 		Debug.Log("and " + acquiredCheckArray[0] + ":"+acquiredCheckArray[1] + ":"+acquiredCheckArray[2]);
 		
-		while(ArrayIndexOf(acquiredCheckArray, 1) == -1 && index < current.length){
-		//while(ArrayUtility.IndexOf(acquiredCheckArray, 1) == -1 && index < current.length){
+		while(System.Array.IndexOf(acquiredCheckArray, 1) == -1 && index < current.length){
 			Debug.Log("Shuffling weiter");
 			index++;
 			current = shiftDir(current, dir);
@@ -94,17 +93,6 @@ function SwapWeapon(notification : Notification)
 	
 		NotificationCenter.DefaultCenter().PostNotification(this, "ActiveWeapon", current);
 	}
-}
-
-function ArrayIndexOf(arr : Array, val : int){
-	var buf : int = 0;
-	for(var i = 0; i < arr.Length; i++){
-		buf = arr[i];
-		if(buf == val){
-			return i;
-		}
-	}
-	return -1;
 }
 
 function shiftDir(arr, dir){
