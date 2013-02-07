@@ -11,6 +11,7 @@ skull.offset = Vector2(Screen.width/2+100,10);
 function Start () 
 {
 	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
+	NotificationCenter.DefaultCenter().AddObserver(this, "SetEnemyKilled");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reset");
 }
 
@@ -21,6 +22,10 @@ function Update () {
 function EnemyKilled()
 {
 	killCounter++;
+}
+function SetEnemyKilled(notification : Notification)
+{
+	killCounter = notification.data;
 }
 
 function Reset()

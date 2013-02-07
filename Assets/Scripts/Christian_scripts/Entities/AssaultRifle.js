@@ -21,6 +21,8 @@ function Start ()								//Start functions run any code as the level starts but 
 {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Fire");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Reload");
+	NotificationCenter.DefaultCenter().AddObserver(this, "SetClips");
+	NotificationCenter.DefaultCenter().AddObserver(this, "SetBullets");
 	
 	audioWallHit = sparks.GetComponent(AudioSource);
 	
@@ -167,6 +169,15 @@ function GetBulletsLeft()
 {
 	return bulletsLeft;
 }
+function SetBullets(notification : Notification)
+{
+	bulletsLeft = notification.data;
+}
+function SetClips(notification : Notification)
+{
+	clips = notification.data;
+}
+
 function Rearm(){
     Debug.Log("rearm");
     clips++;

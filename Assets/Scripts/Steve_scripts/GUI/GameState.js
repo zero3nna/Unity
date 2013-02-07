@@ -3,8 +3,11 @@
 //import PreviewLabs.PlayerPrefs;
 var playerControl:GameObject;
 
-var enemyKills:int = 0;
-var totalEnemyKills:int = 0;
+var currentKillCount:int = 0;
+var healthPoints:int = 0;
+var ammoCount:int = 0;
+var ammoPackCount:int = 0;
+var activeWeapon:int = 0;
 
 var renderOverlay:DisplayTextureFullScreen;
 var transitionDelay:float = 0;
@@ -20,18 +23,22 @@ function Reset() {
 	isGameOver = true;
 	yield WaitForSeconds(1);
 	NotificationCenter.DefaultCenter().PostNotification(this, "WonRound");
-	totalEnemyKills = 0;
+	currentKillCount = 0;
 //	NextLevel();
 }
 
 function Start() {
+	NotificationCenter.DefaultCenter().AddObserver(this, "ChangeLevel");
+	NotificationCenter.DefaultCenter().AddObserver(this, "LoadStats");
+	NotificationCenter.DefaultCenter().AddObserver(this, "Reset");
+	
 	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
 	NotificationCenter.DefaultCenter().AddObserver(this, "PlayerDead");
+	
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
-	NotificationCenter.DefaultCenter().AddObserver(this, "Reset");
 	
 	// check to make sure everything is set
 	if (!playerControl) {
@@ -67,10 +74,8 @@ function Uninfo() {
 //----------------------------------------------------------
 
 function EnemyKilled () {
-	enemyKills += 1;
-	enemyKills = Mathf.Clamp(enemyKills,0,999999);
-	totalEnemyKills += 1;
-	totalEnemyKills = Mathf.Clamp(totalEnemyKills,0,999999);
+	currentKillCount += 1;
+	currentKillCount = Mathf.Clamp(currentKillCount,0,999999);
 //	PreviewLabs.PlayerPrefs.SetInt("thisRoundEnemy",enemyKills);
 //	PreviewLabs.PlayerPrefs.SetInt("thisTotalEnemy",totalEnemyKills);		
 }
@@ -81,11 +86,7 @@ function PlayerDead (notification: Notification) {
 	}
 
 function GetEnemyScoreRound() {
-	return enemyKills;
-}
-
-function GetEnemyScoreTotal() {
-	return totalEnemyKills;
+	return currentKillCount;
 }
 
 var isGameOver:boolean = false;
@@ -139,10 +140,40 @@ function GameOver() {
 	
 	Application.LoadLevel("highscore");
 }
+function ChangeLevel(notification : Notification)
+{
+	var input : int = notification.data;
+	if(input == 0){
+		SaveStats();
+	}else if(input == 1){
+	
+	}
+}
 
-function SaveStats() {
-//	PreviewLabs.PlayerPrefs.SetFloat("thisTimer",timer);
-//	PreviewLabs.PlayerPrefs.SetFloat("thisRounds",roundsWon);
-//	PreviewLabs.PlayerPrefs.SetFloat("thisRoundEnemy",enemyKills);
-//	PreviewLabs.PlayerPrefs.SetFloat("thisTotalEnemy",totalEnemyKills);
+function SaveStats()
+{
+	PlayerPrefs.SetInt("AmmoCount",ammoCount);
+	PlayerPrefs.SetInt("AmmoPackCount",ammoPackCount);
+	PlayerPrefs.SetInt("currentKillCount",currentKillCount);
+	PlayerPrefs.SetInt("ActiveWeapon",activeWeapon);
+	PlayerPrefs.SetInt("HealthPoints",healthPoints);
+}
+function LoadStats()
+{
+	ammoCount = PlayerPrefs.GetInt("AmmoCount");
+	NotificationCenter.DefaultCenter().AddObserver(this, "SetBullets",ammoCount);
+	ammoPackCount = PlayerPrefs.GetInt("AmmoPackCount");
+	NotificationCenter.DefaultCenter().AddObserver(this, "SetClips",ammoPackCount);
+	currentKillCount = PlayerPrefs.GetInt("currentKillCount");
+	NotificationCenter.DefaultCenter().PostNotification(this, "SetEnemyKilled", currentKillCount);
+	activeWeapon = PlayerPrefs.GetInt("ActiveWeapon");
+	if(activeWeapon == 1){
+		NotificationCenter.DefaultCenter().PostNotification(this, "SwapWeapon", 1);
+	}
+	healthPoints = PlayerPrefs.GetInt("HealthPoints");
+	if(healthPoints < 9){
+		for( var i:int = 9 ; i > healthPoints ; i-- ){
+			NotificationCenter.DefaultCenter().PostNotification(this, "PlayerHit", 1);
+		}
+	}
 }
