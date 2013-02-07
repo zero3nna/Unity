@@ -6,7 +6,8 @@ private var inKonami : boolean = false;
 private var health : Health;
 private var swap : WeaponSwap;
 private var cam : Transform;
-private var extinguisher : Extinguisher;
+
+var extinguisher : Extinguisher;
 
 function OnGUI () {
     var e : Event = Event.current;
@@ -19,17 +20,10 @@ function Start(){
 	//health = GetComponent(Health);
 	//swap = GameObject.Find("Weapons").GetComponent(WeaponSwap);
 	//cam = GameObject.Find("Camera").GetComponent(Transform);
-	var obj : GameObject = GameObject.Find("Extinguisher");
-	if(obj != null){
-		extinguisher = obj.GetComponent(Extinguisher);
-	}else{
-		Debug.Log("not found");
-	}
-	Debug.Log(extinguisher);
 }
 
 function LateUpdate () {
-    if (inKonami && extinguisher) {
+    if (inKonami) {
        //health.Heal();
        extinguisher.enableEaster();
        
