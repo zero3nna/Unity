@@ -7,7 +7,11 @@ private var fadeout : boolean = false;
 private var fadein : boolean = false;
 
 function Start () {
-	
+	NotificationCenter.DefaultCenter().AddObserver(this, "FadeOut");
+}
+
+function FadeOut(){
+
 }
 
 function Update () {
