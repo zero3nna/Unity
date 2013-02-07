@@ -87,9 +87,9 @@ function Start () {
 	gui.text += "\tPatrick Ingwer\n";
 	gui.text += "\tRalph Schön\n";
 	
-	gui.text += "\n\n\n\t\"Story in a game is like a story in a porn movie. It's expected to be there, but it's not that important.\"\n - John D. Carmack";
+	gui.text += "\n\n\n\t\"Story in a game is like a story in a porn movie. It's expected to be there, but it's not that important.\"\n - John D. Carmack\n\n";
 	
-	StepDisplay(120, makeHeadline("Game Over", true));
+	StepDisplay(67, makeHeadline("Game Over", true));
 }
 
 function StepDisplay(timeout : int, text : String){
