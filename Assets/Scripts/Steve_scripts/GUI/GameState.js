@@ -49,10 +49,11 @@ function Start() {
 	}
 
 	displayRender = false;
-	LoadStats();
+	
 	
 	yield WaitForSeconds(2);
 	NotificationCenter.DefaultCenter().PostNotification(this, "FadeOut");
+	LoadStats();
 }
 
 //----------------------------------------------------------
@@ -180,9 +181,9 @@ function SaveStats()
 function LoadStats()
 {
 	ammoCount = PlayerPrefs.GetInt("AmmoCount");
-	NotificationCenter.DefaultCenter().AddObserver(this, "SetBullets",ammoCount);
+	NotificationCenter.DefaultCenter().PostNotification(this, "SetBullets",ammoCount);
 	ammoPackCount = PlayerPrefs.GetInt("AmmoPackCount");
-	NotificationCenter.DefaultCenter().AddObserver(this, "SetClips",ammoPackCount);
+	NotificationCenter.DefaultCenter().PostNotification(this, "SetClips",ammoPackCount);
 	currentKillCount = PlayerPrefs.GetInt("currentKillCount");
 	NotificationCenter.DefaultCenter().PostNotification(this, "SetEnemyKilled", currentKillCount);
 	activeWeapon = PlayerPrefs.GetInt("ActiveWeapon");

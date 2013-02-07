@@ -172,10 +172,12 @@ function GetBulletsLeft()
 function SetBullets(notification : Notification)
 {
 	bulletsLeft = notification.data;
+	UpdateGUI();
 }
 function SetClips(notification : Notification)
 {
 	clips = notification.data;
+	UpdateGUI();
 }
 
 function Rearm(){
