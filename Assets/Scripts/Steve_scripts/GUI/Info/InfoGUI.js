@@ -11,9 +11,9 @@ var gameState:GameState;
 function Start () {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
-	if (!gameState) {
+	/*if (!gameState) {
 		gameState = GameObject.FindWithTag("GameController").GetComponent(GameState);
-	}
+	}*/
 }
 
 function Update () {
