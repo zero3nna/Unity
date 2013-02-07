@@ -4,7 +4,7 @@
 var playerControl:GameObject;
 
 var currentKillCount:int = 0;
-var healthPoints:int = 0;
+var healthPoints:int = 5;
 var ammoCount:int = 0;
 var ammoPackCount:int = 0;
 var activeWeapon:int = 0;
@@ -46,6 +46,7 @@ function Start() {
 	}
 
 	displayRender = false;
+	LoadStats();
 	
 	yield WaitForSeconds(2);
 	NotificationCenter.DefaultCenter().PostNotification(this, "FadeOut");
@@ -82,12 +83,12 @@ function EnemyKilled () {
 //	PreviewLabs.PlayerPrefs.SetInt("thisRoundEnemy",enemyKills);
 //	PreviewLabs.PlayerPrefs.SetInt("thisTotalEnemy",totalEnemyKills);		
 }
-
+/*
 function PlayerDead (notification: Notification) {
 	GameOver();
 	isGameOver = true;
 	}
-
+*/
 function GetEnemyScoreRound() {
 	return currentKillCount;
 }
@@ -130,7 +131,7 @@ function NextLevel() {
 	NotificationCenter.DefaultCenter().PostNotification(this, "Unpause");
 }*/
 
-function GameOver() {
+/*function GameOver() {
 	if (!isGameOver) {
 		NotificationCenter.DefaultCenter().PostNotification(this, "GameOver");
 		SaveStats();
@@ -142,7 +143,7 @@ function GameOver() {
 	// wait for death to play, something else?
 	
 	Application.LoadLevel("highscore");
-}
+}*/
 function ChangeLevel(notification : Notification)
 {
 	var input : int = notification.data;
@@ -174,9 +175,6 @@ function LoadStats()
 		NotificationCenter.DefaultCenter().PostNotification(this, "SwapWeapon", 1);
 	}
 	healthPoints = PlayerPrefs.GetInt("HealthPoints");
-	if(healthPoints < 9){
-		for( var i:int = 9 ; i > healthPoints ; i-- ){
-			NotificationCenter.DefaultCenter().PostNotification(this, "PlayerHit", 1);
-		}
-	}
+	NotificationCenter.DefaultCenter().PostNotification(this, "SetHealth", healthPoints);
+
 }

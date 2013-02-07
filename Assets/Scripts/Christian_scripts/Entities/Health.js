@@ -9,6 +9,7 @@ var die : AudioClip;
 
 function Start() {
 	maxHealth = 9;
+	NotificationCenter.DefaultCenter().AddObserver(this, "SetHealth");
 	NotificationCenter.DefaultCenter().AddObserver(this, "PlayerHit");
 	NotificationCenter.DefaultCenter().AddObserver(this, "GameOver");
 	NotificationCenter.DefaultCenter().AddObserver(this, "WonRound");
@@ -43,6 +44,11 @@ function GameOver() {
 
 function currentHealth() {
 	return startHealth;
+}
+
+function SetHealth(notification:Notification)
+{
+	startHealth = notification.data;
 }
 
 function PlayerHit(notification: Notification) {
