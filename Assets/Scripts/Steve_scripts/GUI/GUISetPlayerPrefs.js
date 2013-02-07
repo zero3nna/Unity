@@ -32,6 +32,8 @@ function Start () {
 		PlayerPrefs.SetInt("ActiveWeapon",0);
 		
 		PlayerPrefs.SetInt("HealthPoints",0);
+		
+		PlayerPrefs.SetString("CurrentPlayerName","Batman");
 	}
 	
 	NotificationCenter.DefaultCenter().AddObserver(this, "GameOver");
