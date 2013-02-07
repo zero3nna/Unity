@@ -35,6 +35,9 @@ function Start() {
 	NotificationCenter.DefaultCenter().AddObserver(this, "EnemyKilled");
 	NotificationCenter.DefaultCenter().AddObserver(this, "PlayerDead");
 	
+	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateAmmo");
+	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateAmmoPack");
+	
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
@@ -154,9 +157,21 @@ function ChangeLevel(notification : Notification)
 	}
 }
 
+function UpdateAmmo (notification : Notification)
+{
+	ammoCount = notification.data;
+}
+
+function UpdateAmmoPack (notification : Notification)
+{
+	ammoPackCount= notification.data;
+}
+
+
 function SaveStats()
 {
 	PlayerPrefs.SetInt("AmmoCount",ammoCount);
+	Debug.Log(PlayerPrefs.GetInt("AmmoCount"));
 	PlayerPrefs.SetInt("AmmoPackCount",ammoPackCount);
 	PlayerPrefs.SetInt("currentKillCount",currentKillCount);
 	PlayerPrefs.SetInt("ActiveWeapon",activeWeapon);
