@@ -1,11 +1,12 @@
 #pragma strict
 
+
 private var gui : GUIText;
 private var speed : float = .05;
 private var text = "out";
 private var crawling : boolean = false;
 
-
+var levelName : String;
 var maxHeight : float = 4.5;
 
 function makeHeadline(title : String){
@@ -95,6 +96,14 @@ function Start () {
 function StepDisplay(timeout : int, text : String){
 	yield WaitForSeconds(timeout);
 	gui.text += text;
+}
+
+function OnGUI(){
+	
+    var e : Event = Event.current;
+    if (e.isKey && Input.anyKeyDown && e.keyCode.ToString()!="None") {
+       Application.LoadLevel(levelName);
+    }
 }
 
 function Update ()
