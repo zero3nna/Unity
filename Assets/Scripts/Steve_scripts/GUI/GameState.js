@@ -37,6 +37,7 @@ function Start() {
 	
 	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateAmmo");
 	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateAmmoPack");
+	NotificationCenter.DefaultCenter().AddObserver(this, "UpdateHealth");
 	
 	NotificationCenter.DefaultCenter().AddObserver(this, "Pause");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Unpause");
@@ -165,7 +166,11 @@ function UpdateAmmo (notification : Notification)
 
 function UpdateAmmoPack (notification : Notification)
 {
-	ammoPackCount= notification.data;
+	ammoPackCount = notification.data;
+}
+function UpdateHealth (notification : Notification)
+{
+	healthPoints = notification.data;
 }
 
 
