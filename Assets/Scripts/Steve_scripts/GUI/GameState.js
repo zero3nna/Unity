@@ -182,20 +182,23 @@ function SaveStats()
 	PlayerPrefs.SetInt("currentKillCount",currentKillCount);
 	PlayerPrefs.SetInt("ActiveWeapon",activeWeapon);
 	PlayerPrefs.SetInt("HealthPoints",healthPoints);
+	PlayerPrefs.SetInt("AlreadySafe",1);
 }
 function LoadStats()
 {
-	ammoCount = PlayerPrefs.GetInt("AmmoCount");
-	NotificationCenter.DefaultCenter().PostNotification(this, "SetBullets",ammoCount);
-	ammoPackCount = PlayerPrefs.GetInt("AmmoPackCount");
-	NotificationCenter.DefaultCenter().PostNotification(this, "SetClips",ammoPackCount);
+	if (PlayerPrefs.GetInt("AlreadySafe") == 1){
+		PlayerPrefs.SetInt("AlreadySafe",0);
+		ammoCount = PlayerPrefs.GetInt("AmmoCount");
+		NotificationCenter.DefaultCenter().PostNotification(this, "SetBullets",ammoCount);
+		ammoPackCount = PlayerPrefs.GetInt("AmmoPackCount");
+		NotificationCenter.DefaultCenter().PostNotification(this, "SetClips",ammoPackCount);
+		activeWeapon = PlayerPrefs.GetInt("ActiveWeapon");
+		if(activeWeapon == 1){
+			NotificationCenter.DefaultCenter().PostNotification(this, "SwapWeapon", 1);
+		}
+		healthPoints = PlayerPrefs.GetInt("HealthPoints");
+		NotificationCenter.DefaultCenter().PostNotification(this, "SetHealth", healthPoints);
+	}
 	currentKillCount = PlayerPrefs.GetInt("currentKillCount");
 	NotificationCenter.DefaultCenter().PostNotification(this, "SetEnemyKilled", currentKillCount);
-	activeWeapon = PlayerPrefs.GetInt("ActiveWeapon");
-	if(activeWeapon == 1){
-		NotificationCenter.DefaultCenter().PostNotification(this, "SwapWeapon", 1);
-	}
-	healthPoints = PlayerPrefs.GetInt("HealthPoints");
-	NotificationCenter.DefaultCenter().PostNotification(this, "SetHealth", healthPoints);
-
 }
