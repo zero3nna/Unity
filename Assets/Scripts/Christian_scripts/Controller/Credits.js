@@ -5,6 +5,9 @@ private var speed : float = .05;
 private var text = "out";
 private var crawling : boolean = false;
 
+
+var maxHeight : float = 4.5;
+
 function makeHeadline(title : String){
 	return makeHeadline(title, false);
 }
@@ -26,6 +29,7 @@ function makeHeadline(title : String, upper : boolean){
 }
 
 function Start () {
+	crawling = true;
 	gui = GetComponent(GUIText);
 	gui.text = "";
 	gui.text += makeHeadline("The Lost Mine - Multimedia Produktion", true);
@@ -70,12 +74,7 @@ function Start () {
 	gui.text += "\tMelanie Duhn\n";
 	gui.text += "\tDaniel Claus\n";
 	
-	gui.text += makeHeadline("Rigging, Animation");
-	gui.text += "\tTom Noack\n";
-	gui.text += "\tMarvin Schulz\n";
-	gui.text += "\tMatthias Westphal\n";
-	
-	gui.text += makeHeadline("Rigging, Animation");
+	gui.text += makeHeadline("Sound FX");
 	gui.text += "\tTom Noack\n";
 	gui.text += "\tMarvin Schulz\n";
 	gui.text += "\tMatthias Westphal\n";
@@ -88,12 +87,24 @@ function Start () {
 	gui.text += "\tPatrick Ingwer\n";
 	gui.text += "\tRalph Schön\n";
 	
+	gui.text += "\n\n\n\t\"Story in a game is like a story in a porn movie. It's expected to be there, but it's not that important.\"\n - John D. Carmack";
 	
+	StepDisplay(120, makeHeadline("Game Over", true));
+}
+
+function StepDisplay(timeout : int, text : String){
+	yield WaitForSeconds(timeout);
+	gui.text += text;
 }
 
 function Update ()
 {
-	transform.Translate(Vector3.up * Time.deltaTime * speed);
+	if(crawling){
+		transform.Translate(Vector3.up * Time.deltaTime * speed);
+	}
+	if(transform.position.y > maxHeight){
+		crawling = false;
+	}
     /*if (!crawling)
         return;
     transform.Translate(Vector3.up * Time.deltaTime * speed);
