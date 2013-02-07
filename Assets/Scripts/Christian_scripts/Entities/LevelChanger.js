@@ -5,13 +5,16 @@ var alpha : float = 1;
 
 private var fadeout : boolean = false;
 private var fadein : boolean = false;
+var disableOnFadeout : boolean = false;
 
 function Start () {
 	NotificationCenter.DefaultCenter().AddObserver(this, "FadeOut");
 }
 
 function FadeOut(){
-
+	Debug.Log("FADEOUT");
+	//disableOnFadeout = true;
+	fadeout = true;
 }
 
 function Update () {
@@ -19,7 +22,9 @@ function Update () {
 		alpha -= Mathf.Clamp01(Time.deltaTime / 5);
 		if(alpha < 0){
 			fadeout = false;
-			Application.LoadLevel(levelName);
+			if(disableOnFadeout){
+				gameObject.active = false;
+			}
 		}
 	}else if(fadein){
 		alpha += Mathf.Clamp01(Time.deltaTime / 5);
@@ -38,6 +43,7 @@ function OnGUI(){
 function OnTriggerEnter (other : Collider) {
 	if(other.tag == "Player"){
 		//Player entered
+		
 		NotificationCenter.DefaultCenter().PostNotification(this, "ChangeLevel",0);
 		fadein = true;
 	}

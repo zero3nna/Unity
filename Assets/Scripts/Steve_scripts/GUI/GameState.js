@@ -40,14 +40,15 @@ function Start() {
 	NotificationCenter.DefaultCenter().AddObserver(this, "Info");
 	NotificationCenter.DefaultCenter().AddObserver(this, "Uninfo");
 	
-	NotificationCenter.DefaultCenter().PostNotification(this, "FadeOut");
-	
 	// check to make sure everything is set
 	if (!playerControl) {
 		playerControl = GameObject.Find("Player");
 	}
 
 	displayRender = false;
+	
+	yield WaitForSeconds(2);
+	NotificationCenter.DefaultCenter().PostNotification(this, "FadeOut");
 }
 
 //----------------------------------------------------------

@@ -7,6 +7,8 @@ enum BossState{attack, idle, gameOver, sawPlayer, start, retreat}
 private var shaderFrozen : Shader;
 private var shaderNormal : Shader;
 
+var killTriggerObject : GameObject;
+
 var audioPlayerHit : AudioSource;
 var audioAttack : AudioSource;
 
@@ -103,6 +105,7 @@ function ApplyDamage(payload : Array){
 					break;
 			}
 			if(healthPoints < 0){
+				killTriggerObject.active = true;
 				frozen = true;
 				var rigid : Rigidbody = GetComponent(Rigidbody);
 				var collide : BoxCollider = GetComponent(BoxCollider);
